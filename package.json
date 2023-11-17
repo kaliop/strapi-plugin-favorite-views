@@ -14,7 +14,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --ignore-path .eslintignore",
     "format:check": "prettier --ignore-path .eslintignore --check .",
-    "format:write": "prettier --ignore-path .eslintignore --write ."
+    "format:write": "prettier --ignore-path .eslintignore --write .",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@strapi/design-system": "^1.6.3",
@@ -32,7 +33,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^5.3.4",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "husky": "^8.0.0"
   },
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0",

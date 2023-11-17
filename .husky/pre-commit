@@ -1,0 +1,40 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Linter
+yarn run lint:fix -- --max-warnings 0
+
+# Ask question to add files if Linter update some files
+if [ "$(git status --porcelain | grep -s -n -E "^MM ")" != "" ]; then
+  # Display list of change
+  echo "⚠  Files are updated by linter:"
+  echo "$(git status --porcelain | grep -E "^MM " | sed 's/^MM /   /')"
+
+  if [ "${isFromTerminal}" = "0" ]; then
+    exit 1
+  else
+    # Ask question to add or not these files
+    echo -n "\nDo you want add them to commit? [Y/n]"
+    read -r commit
+    if [ "${commit}" = "n" ] || [ "${commit}" = "N" ]; then # if NO
+      echo "Check and updated those files if necessary"
+      exit 1
+    fi
+  fi
+fi
+
+# Prettier
+yarn run format:write -- --loglevel warn
+
+# Add staged files that are updated by prettier or linter
+if [ "$(git status --porcelain | grep -E "^MM ")" != "" ]; then
+  echo "Add files to commit:"
+  echo "$(git status --porcelain | grep -E "^MM " | sed 's/^MM /   /')"
+  git add $(git status --porcelain | grep -E "^MM " | sed 's/^MM //' | tr '\n' ' ')
+
+  # "read" to display files to user
+  if [ "${isFromTerminal}" = "1" ]; then
+    echo -n "\nPress any key to continue..."
+    read -r commit
+  fi
+fi
