@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
-const savedView = require("./saved-view");
+const savedView = require('./saved-view');
 
 module.exports = {
-  "saved-view": savedView,
+  'saved-view': savedView
 };
