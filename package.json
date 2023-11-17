@@ -8,6 +8,14 @@
     "kind": "plugin",
     "displayName": "Favorite Views"
   },
+  "scripts": {
+    "lint": "eslint",
+    "lint:check": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --ignore-path .eslintignore",
+    "format:check": "prettier --ignore-path .eslintignore --check .",
+    "format:write": "prettier --ignore-path .eslintignore --write ."
+  },
   "dependencies": {
     "@strapi/design-system": "^1.6.3",
     "@strapi/helper-plugin": "^4.6.0",
@@ -15,6 +23,12 @@
     "prop-types": "^15.7.2"
   },
   "devDependencies": {
+    "eslint": "^8.53.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^5.3.4",
