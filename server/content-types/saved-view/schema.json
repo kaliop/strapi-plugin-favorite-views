@@ -18,6 +18,10 @@
     "slug": {
       "type": "string",
       "required": true
+    },
+    "roles": {
+      "type": "json",
+      "default": []
     }
   }
 }

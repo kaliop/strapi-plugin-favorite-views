@@ -2,11 +2,22 @@
 
 module.exports = ({ strapi }) => ({
   async find(ctx) {
-    ctx.body = await strapi.plugin('favorite-views').service('favoriteViews').find();
+    const user = ctx.state.user;
+
+    ctx.body = await strapi.plugin('favorite-views').service('favoriteViews').find(user);
   },
   async delete(ctx) {
     const { id } = ctx.params;
 
     ctx.body = await strapi.plugin('favorite-views').service('favoriteViews').delete(id);
+  },
+  async update(ctx) {
+    const { id } = ctx.params;
+    const { name, url, roles } = ctx.request.body;
+
+    ctx.body = await strapi
+      .plugin('favorites-views')
+      .service('favoriteViews')
+      .update(id, name, url, roles);
   }
 });

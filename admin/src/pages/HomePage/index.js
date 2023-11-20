@@ -8,7 +8,13 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import getTrad from '../../utils/getTrad';
 
-import { BaseHeaderLayout, ContentLayout, EmptyStateLayout, Layout } from '@strapi/design-system';
+import {
+  BaseHeaderLayout,
+  Box,
+  ContentLayout,
+  EmptyStateLayout,
+  Layout
+} from '@strapi/design-system';
 
 import Illo from '../../components/Illo';
 import ViewsTable from '../../components/ViewsTable';
@@ -19,8 +25,15 @@ import useViews from '../../hooks/views/useViews';
 const HomePage = () => {
   const { formatMessage } = useIntl();
 
-  const { views, deleteView, showDeleteModal, setShowDeleteModal, viewToDelete, setViewToDelete } =
-    useViews();
+  const {
+    userViews,
+    sharedViews,
+    deleteView,
+    showDeleteModal,
+    setShowDeleteModal,
+    viewToDelete,
+    setViewToDelete
+  } = useViews();
 
   return (
     <Layout>
@@ -33,7 +46,7 @@ const HomePage = () => {
         })}
       />
       <ContentLayout>
-        {!views.length ? (
+        {!userViews.length && !sharedViews.length ? (
           <EmptyStateLayout
             icon={<Illo />}
             content={formatMessage({
@@ -41,11 +54,22 @@ const HomePage = () => {
             })}
           />
         ) : (
-          <ViewsTable
-            views={views}
-            setShowDeleteModal={setShowDeleteModal}
-            setViewToDelete={setViewToDelete}
-          />
+          <>
+            <Box marginBottom={2}>
+              <ViewsTable
+                views={userViews}
+                setShowDeleteModal={setShowDeleteModal}
+                setViewToDelete={setViewToDelete}
+              />
+            </Box>
+            <Box>
+              <ViewsTable
+                views={sharedViews}
+                setShowDeleteModal={setShowDeleteModal}
+                setViewToDelete={setViewToDelete}
+              />
+            </Box>
+          </>
         )}
       </ContentLayout>
       {showDeleteModal && (
