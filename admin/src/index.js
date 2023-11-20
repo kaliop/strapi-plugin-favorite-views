@@ -3,6 +3,8 @@ import pluginId from './pluginId';
 import Initializer from './components/Initializer';
 import PluginIcon from './components/PluginIcon';
 
+import ViewsWidget from './components/ViewsWidget';
+
 const name = 'Favorite Views';
 
 export default {
@@ -35,7 +37,12 @@ export default {
     });
   },
 
-  bootstrap(/* app */) {},
+  bootstrap(app) {
+    app.injectContentManagerComponent('listView', 'actions', {
+      name: 'favorite-views-widget',
+      Component: ViewsWidget
+    });
+  },
   async registerTrads({ locales }) {
     const importedTrads = await Promise.all(
       locales.map((locale) => {
