@@ -9,6 +9,15 @@ module.exports = [
     }
   },
   {
+    method: 'POST',
+    path: '/create',
+    handler: 'favoriteViews.create',
+    config: {
+      policies: [],
+      auth: false
+    }
+  },
+  {
     method: 'DELETE',
     path: '/delete/:id',
     handler: 'favoriteViews.delete',

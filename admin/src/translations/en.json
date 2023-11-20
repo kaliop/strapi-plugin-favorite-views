@@ -9,6 +9,12 @@
   "DeleteViewModal.ModalHeader.title": "Delete view",
   "DeleteViewModal.ModalBody.message1": "You are about to delete the view:",
   "DeleteViewModal.ModalBody.message2": "Are you sure you want to continue ?",
-  "DeleteViewModal.ModalFooter.annuler": "Cancel",
-  "DeleteViewModal.ModalFooter.confirm": "Confirm"
+  "DeleteViewModal.ModalFooter.cancel": "Cancel",
+  "DeleteViewModal.ModalFooter.confirm": "Confirm",
+  "ViewsWidget.actions.create": "Create new view",
+  "ViewsWidget.actions.showList": "Views list",
+  "CreateViewModal.ModalHeader.title": "Add a new view",
+  "CreateViewModal.ModalBody.nameInputLabel": "View name",
+  "CreateViewModal.ModalFooter.cancel": "Cancel",
+  "CreateViewModal.ModalFooter.confirm": "Save"
 }

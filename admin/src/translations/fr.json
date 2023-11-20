@@ -9,6 +9,12 @@
   "DeleteViewModal.ModalHeader.title": "Supprimer la vue",
   "DeleteViewModal.ModalBody.message1": "Vous êtes sur le point de supprimer la vue :",
   "DeleteViewModal.ModalBody.message2": "Êtes-vous sûr de vouloir continuer ?",
-  "DeleteViewModal.ModalFooter.annuler": "Annuler",
-  "DeleteViewModal.ModalFooter.confirm": "Confirmer"
+  "DeleteViewModal.ModalFooter.cancel": "Annuler",
+  "DeleteViewModal.ModalFooter.confirm": "Confirmer",
+  "ViewsWidget.actions.create": "Créer une vue",
+  "ViewsWidget.actions.showList": "Liste des vues",
+  "CreateViewModal.ModalHeader.title": "Ajouter une nouvelle vue",
+  "CreateViewModal.ModalBody.nameInputLabel": "Nom de la vue",
+  "CreateViewModal.ModalFooter.cancel": "Annuler",
+  "CreateViewModal.ModalFooter.confirm": "Enregistrer"
 }

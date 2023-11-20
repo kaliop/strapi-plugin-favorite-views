@@ -17,7 +17,7 @@ import { Trash } from '@strapi/icons';
 
 const DeleteViewModal = ({ setShowDeleteModal, viewToDelete, onDeleteView }) => {
   const { formatMessage } = useIntl();
-  const MODAL_TITLE_ID = 'delete-view-confirmation-title';
+  const MODAL_TITLE_ID = 'delete-view-title';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,7 +66,7 @@ const DeleteViewModal = ({ setShowDeleteModal, viewToDelete, onDeleteView }) => 
           <>
             <Button onClick={() => setShowDeleteModal(false)} variant="tertiary">
               {formatMessage({
-                id: getTrad('DeleteViewModal.ModalFooter.annuler')
+                id: getTrad('DeleteViewModal.ModalFooter.cancel')
               })}
             </Button>
             <Button type="submit" variant="danger-light" startIcon={<Trash />}>
