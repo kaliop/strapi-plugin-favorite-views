@@ -1,1 +1,14 @@
-{}
+{
+  "Homepage.BaseHeaderLayout.title": "Favorite views",
+  "Homepage.BaseHeaderLayout.subtitle": "You can find here all your favorite views",
+  "Homepage.EmptyStateLayout.content": "You don't have any favorite view yet...",
+  "ViewsTable.TableHead.id": "ID",
+  "ViewsTable.TableHead.name": "Name",
+  "ViewsTable.TableHead.actions": "Actions",
+  "ViewsTable.TableRow.delete": "Delete view",
+  "DeleteViewModal.ModalHeader.title": "Delete view",
+  "DeleteViewModal.ModalBody.message1": "You are about to delete the view:",
+  "DeleteViewModal.ModalBody.message2": "Are you sure you want to continue ?",
+  "DeleteViewModal.ModalFooter.annuler": "Cancel",
+  "DeleteViewModal.ModalFooter.confirm": "Confirm"
+}

@@ -1,7 +1,7 @@
 'use strict';
 
-const myController = require('./my-controller');
+const favoriteViews = require('./favorite-views');
 
 module.exports = {
-  myController
+  favoriteViews
 };

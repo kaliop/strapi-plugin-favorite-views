@@ -1,7 +1,7 @@
 'use strict';
 
-const myService = require('./my-service');
+const favoriteViews = require('./favorite-views');
 
 module.exports = {
-  myService
+  favoriteViews
 };

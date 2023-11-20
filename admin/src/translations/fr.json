@@ -1,1 +1,14 @@
-{}
+{
+  "Homepage.BaseHeaderLayout.title": "Vues favorites",
+  "Homepage.BaseHeaderLayout.subtitle": "Retrouvez ici toutes vos vues favorites",
+  "Homepage.EmptyStateLayout.content": "Vous n'avez encore aucune vue favorite enregistrée...",
+  "ViewsTable.TableHead.id": "ID",
+  "ViewsTable.TableHead.name": "Nom",
+  "ViewsTable.TableHead.actions": "Actions",
+  "ViewsTable.TableRow.delete": "Supprimer la vue",
+  "DeleteViewModal.ModalHeader.title": "Supprimer la vue",
+  "DeleteViewModal.ModalBody.message1": "Vous êtes sur le point de supprimer la vue :",
+  "DeleteViewModal.ModalBody.message2": "Êtes-vous sûr de vouloir continuer ?",
+  "DeleteViewModal.ModalFooter.annuler": "Annuler",
+  "DeleteViewModal.ModalFooter.confirm": "Confirmer"
+}

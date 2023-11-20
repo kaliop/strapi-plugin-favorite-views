@@ -1,10 +1,20 @@
 module.exports = [
   {
     method: 'GET',
-    path: '/',
-    handler: 'myController.index',
+    path: '/find',
+    handler: 'favoriteViews.find',
     config: {
-      policies: []
+      policies: [],
+      auth: false
+    }
+  },
+  {
+    method: 'DELETE',
+    path: '/delete/:id',
+    handler: 'favoriteViews.delete',
+    config: {
+      policies: [],
+      auth: false
     }
   }
 ];
