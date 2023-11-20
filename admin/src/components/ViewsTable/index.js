@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import getTrad from '../../utils/getTrad';
 
 import {
   Flex,
   IconButton,
-  Link,
   Table,
   Thead,
   Tbody,
@@ -16,6 +16,7 @@ import {
   Typography,
   VisuallyHidden
 } from '@strapi/design-system';
+import { Link } from '@strapi/design-system/v2';
 import { Trash } from '@strapi/icons';
 
 const TableHead = () => {
@@ -64,7 +65,9 @@ const TableRow = ({ view, setShowDeleteModal, setViewToDelete }) => {
         <Typography textColor="neutral800">{view.id}</Typography>
       </Td>
       <Td>
-        <Link href={view.url}>{view.name}</Link>
+        <Link as={NavLink} to={view.slug}>
+          {view.name}
+        </Link>
       </Td>
       <Td>
         <Flex justifyContent="right" gap={1}>
