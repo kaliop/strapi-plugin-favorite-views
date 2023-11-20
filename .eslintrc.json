@@ -19,5 +19,7 @@
     "sourceType": "module"
   },
   "plugins": ["react"],
-  "rules": {}
+  "rules": {
+    "react-hooks/exhaustive-deps": 0
+  }
 }
