@@ -13,7 +13,12 @@ import {
   Box,
   ContentLayout,
   EmptyStateLayout,
-  Layout
+  Layout,
+  TabGroup,
+  Tabs,
+  Tab,
+  TabPanels,
+  TabPanel
 } from '@strapi/design-system';
 
 import Illo from '../../components/Illo';
@@ -54,22 +59,54 @@ const HomePage = () => {
             })}
           />
         ) : (
-          <>
-            <Box marginBottom={2}>
-              <ViewsTable
-                views={userViews}
-                setShowDeleteModal={setShowDeleteModal}
-                setViewToDelete={setViewToDelete}
-              />
-            </Box>
-            <Box>
-              <ViewsTable
-                views={sharedViews}
-                setShowDeleteModal={setShowDeleteModal}
-                setViewToDelete={setViewToDelete}
-              />
-            </Box>
-          </>
+          <TabGroup>
+            <Tabs>
+              <Tab>
+                {formatMessage({
+                  id: getTrad('Homepage.Tabs.MyViews')
+                })}
+              </Tab>
+              <Tab>
+                {formatMessage({
+                  id: getTrad('Homepage.Tabs.SharedViews')
+                })}
+              </Tab>
+            </Tabs>
+            <TabPanels>
+              <TabPanel>
+                {userViews.length ? (
+                  <Box padding={8} background="neutral0">
+                    <ViewsTable
+                      views={userViews}
+                      setShowDeleteModal={setShowDeleteModal}
+                      setViewToDelete={setViewToDelete}
+                    />
+                  </Box>
+                ) : (
+                  <EmptyStateLayout
+                    icon={<Illo />}
+                    content={formatMessage({
+                      id: getTrad('Homepage.MyViews.EmptyStateLayout.content')
+                    })}
+                  />
+                )}
+              </TabPanel>
+              <TabPanel>
+                {sharedViews.length ? (
+                  <Box padding={8} background="neutral0">
+                    <ViewsTable views={sharedViews} />
+                  </Box>
+                ) : (
+                  <EmptyStateLayout
+                    icon={<Illo />}
+                    content={formatMessage({
+                      id: getTrad('Homepage.SharedViews.EmptyStateLayout.content')
+                    })}
+                  />
+                )}
+              </TabPanel>
+            </TabPanels>
+          </TabGroup>
         )}
       </ContentLayout>
       {showDeleteModal && (
