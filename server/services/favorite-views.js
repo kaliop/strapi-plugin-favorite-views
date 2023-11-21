@@ -18,7 +18,7 @@ module.exports = ({ strapi }) => ({
           populate: ['createdBy']
         });
         const allRolesViews = allViews.filter((view) =>
-          view.roles.some((role) => userRoles.includes(role))
+          view.roles?.some((role) => userRoles.includes(role))
         );
         sharedViews = allRolesViews.filter((view) => view.createdBy.id !== user.id);
       }
