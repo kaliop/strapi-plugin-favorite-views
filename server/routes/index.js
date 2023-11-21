@@ -12,8 +12,7 @@ module.exports = [
     path: '/create',
     handler: 'favoriteViews.create',
     config: {
-      policies: [],
-      auth: false
+      policies: []
     }
   },
   {

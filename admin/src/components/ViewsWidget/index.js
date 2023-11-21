@@ -1,7 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useIntl } from 'react-intl';
 import getTrad from '../../utils/getTrad';
-import { useFetchClient } from '@strapi/helper-plugin';
 
 import { Button, Flex } from '@strapi/design-system';
 import { List, Plus } from '@strapi/icons';
@@ -9,25 +8,15 @@ import { List, Plus } from '@strapi/icons';
 import ViewsListPopover from '../ViewsListPopover';
 import CreateViewModal from '../CreateViewModal';
 
+import useViewsWidget from '../../hooks/viewsWidget/useViewsWidget';
 import useViews from '../../hooks/views/useViews';
 
 const ViewsWidget = () => {
   const { formatMessage } = useIntl();
-  const { post } = useFetchClient();
-  const { views, getViews } = useViews();
-
-  const [viewsMenuVisible, setViewsMenuVisible] = useState(false);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-
+  const { viewsMenuVisible, setViewsMenuVisible, showCreateModal, setShowCreateModal } =
+    useViewsWidget();
+  const { userViews, addView } = useViews();
   const viewsButtonRef = useRef(null);
-
-  const addView = async (viewData) => {
-    const requestURL = '/favorite-views/create';
-
-    await post(requestURL, viewData);
-
-    getViews();
-  };
 
   return (
     <>
@@ -51,7 +40,7 @@ const ViewsWidget = () => {
       {viewsMenuVisible && (
         <ViewsListPopover
           viewsButtonRef={viewsButtonRef}
-          views={views}
+          views={userViews}
           setViewsMenuVisible={setViewsMenuVisible}
         />
       )}

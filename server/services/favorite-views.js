@@ -28,11 +28,12 @@ module.exports = ({ strapi }) => ({
       throw new Error(`Find favorite views error : ${error}`);
     }
   },
-  async create(name, slug) {
+  async create(name, slug, userId) {
     return await strapi.entityService.create('plugin::favorite-views.saved-view', {
       data: {
         name,
-        slug
+        slug,
+        createdBy: userId
       }
     });
   },
