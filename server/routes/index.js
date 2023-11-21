@@ -30,5 +30,14 @@ module.exports = [
     config: {
       policies: []
     }
+  },
+  {
+    method: 'GET',
+    path: '/getRoles',
+    handler: 'favoriteViews.getRoles',
+    config: {
+      policies: [],
+      auth: false
+    }
   }
 ];

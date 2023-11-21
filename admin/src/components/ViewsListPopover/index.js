@@ -12,11 +12,7 @@ const ViewsListPopover = ({ views, viewsButtonRef, setViewsMenuVisible }) => {
       placement="bottom-end"
       onDismiss={() => setViewsMenuVisible(false)}
     >
-      <ul
-        style={{
-          width: '150px'
-        }}
-      >
+      <ul>
         {views.map((view) => (
           <Box as="li" key={view.id} padding={2}>
             <Link as={NavLink} to={view.slug}>

@@ -28,11 +28,12 @@ module.exports = ({ strapi }) => ({
       throw new Error(`Find favorite views error : ${error}`);
     }
   },
-  async create(name, slug, userId) {
+  async create(name, slug, roles, userId) {
     return await strapi.entityService.create('plugin::favorite-views.saved-view', {
       data: {
         name,
         slug,
+        roles,
         createdBy: userId
       }
     });
@@ -60,5 +61,8 @@ module.exports = ({ strapi }) => ({
     } else {
       throw new Error('Id is not defined');
     }
+  },
+  async getRoles() {
+    return await strapi.db.query('admin::role').findMany();
   }
 });

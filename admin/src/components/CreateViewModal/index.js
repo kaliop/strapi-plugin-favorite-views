@@ -5,21 +5,25 @@ import getTrad from '../../utils/getTrad';
 
 import {
   Button,
+  Flex,
   ModalLayout,
   ModalHeader,
   ModalBody,
   ModalFooter,
+  MultiSelect,
+  MultiSelectOption,
   TextInput,
   Typography
 } from '@strapi/design-system';
 
-const CreateViewModal = ({ setShowCreateModal, addView }) => {
+const CreateViewModal = ({ userRoles, setShowCreateModal, addView }) => {
   const { formatMessage } = useIntl();
 
   const MODAL_TITLE_ID = 'create-view-title';
   const ADMIN_PATH = '/admin';
 
   const [name, setName] = useState('');
+  const [roles, setRoles] = useState([]);
 
   const { pathname, search } = window.location;
 
@@ -32,7 +36,7 @@ const CreateViewModal = ({ setShowCreateModal, addView }) => {
     const slug = `${path}${params}`;
 
     try {
-      await addView({ name, slug });
+      await addView({ name, slug, roles });
 
       setShowCreateModal(false);
     } catch (error) {
@@ -55,13 +59,36 @@ const CreateViewModal = ({ setShowCreateModal, addView }) => {
         </Typography>
       </ModalHeader>
       <ModalBody>
-        <TextInput
-          name={name}
-          label={formatMessage({
-            id: getTrad('CreateViewModal.ModalBody.nameInputLabel')
-          })}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <Flex gap={6} direction="column" alignItems="stretch">
+          <TextInput
+            name={name}
+            label={formatMessage({
+              id: getTrad('CreateViewModal.ModalBody.nameInputLabel')
+            })}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <MultiSelect
+            label={formatMessage({
+              id: getTrad('CreateViewModal.ModalBody.rolesInputLabel')
+            })}
+            placeholder={formatMessage({
+              id: getTrad('CreateViewModal.ModalBody.rolesInputPlaceholder')
+            })}
+            onClear={() => {
+              setRoles([]);
+            }}
+            value={roles}
+            onChange={setRoles}
+            withTags
+          >
+            {userRoles.map((role) => (
+              <MultiSelectOption key={role.id} value={role.code}>
+                {role.name}
+              </MultiSelectOption>
+            ))}
+          </MultiSelect>
+        </Flex>
       </ModalBody>
       <ModalFooter
         startActions={
@@ -84,6 +111,7 @@ const CreateViewModal = ({ setShowCreateModal, addView }) => {
 };
 
 CreateViewModal.propTypes = {
+  userRoles: PropTypes.array.isRequired,
   setShowCreateModal: PropTypes.func.isRequired,
   addView: PropTypes.func.isRequired
 };

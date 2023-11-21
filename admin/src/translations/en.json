@@ -18,6 +18,8 @@
   "ViewsWidget.actions.showList": "Views list",
   "CreateViewModal.ModalHeader.title": "Add a new view",
   "CreateViewModal.ModalBody.nameInputLabel": "View name",
+  "CreateViewModal.ModalBody.rolesInputLabel": "Roles",
+  "CreateViewModal.ModalBody.rolesInputPlaceholder": "Roles to share a view with",
   "CreateViewModal.ModalFooter.cancel": "Cancel",
   "CreateViewModal.ModalFooter.confirm": "Save"
 }
