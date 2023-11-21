@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useFetchClient } from '@strapi/helper-plugin';
 
+import CONST from '../../CONST';
+
 const useViewsWidget = () => {
   const { get } = useFetchClient();
 
@@ -13,9 +15,7 @@ const useViewsWidget = () => {
   }, []);
 
   const getUserRoles = async () => {
-    const requestURL = '/favorite-views/getRoles';
-
-    const { data } = await get(requestURL);
+    const { data } = await get(CONST.REQUEST_URLS.GET_ROLES);
 
     setUserRoles(data);
   };
