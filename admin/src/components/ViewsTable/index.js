@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import getTrad from '../../utils/getTrad';
 
 import {
+  Box,
   Flex,
   IconButton,
   Table,
@@ -65,20 +66,24 @@ const TableRow = ({ view, setShowDeleteModal, setViewToDelete }) => {
         <Typography textColor="neutral800">{view.id}</Typography>
       </Td>
       <Td>
-        <Link as={NavLink} to={view.slug}>
-          {view.name}
-        </Link>
+        <Box paddingTop={2} paddingBottom={2}>
+          <Link as={NavLink} to={view.slug}>
+            {view.name}
+          </Link>
+        </Box>
       </Td>
       <Td>
         <Flex justifyContent="right" gap={1}>
-          <IconButton
-            onClick={() => deleteView(view)}
-            label={formatMessage({
-              id: getTrad('ViewsTable.TableRow.delete')
-            })}
-            noBorder
-            icon={<Trash />}
-          />
+          {setShowDeleteModal && (
+            <IconButton
+              onClick={() => deleteView(view)}
+              label={formatMessage({
+                id: getTrad('ViewsTable.TableRow.delete')
+              })}
+              noBorder
+              icon={<Trash />}
+            />
+          )}
         </Flex>
       </Td>
     </Tr>
@@ -87,8 +92,8 @@ const TableRow = ({ view, setShowDeleteModal, setViewToDelete }) => {
 
 TableRow.propTypes = {
   view: PropTypes.object.isRequired,
-  setShowDeleteModal: PropTypes.func.isRequired,
-  setViewToDelete: PropTypes.func.isRequired
+  setShowDeleteModal: PropTypes.func,
+  setViewToDelete: PropTypes.func
 };
 
 const ViewsTable = ({ views, setShowDeleteModal, setViewToDelete }) => {
@@ -116,8 +121,8 @@ const ViewsTable = ({ views, setShowDeleteModal, setViewToDelete }) => {
 
 ViewsTable.propTypes = {
   views: PropTypes.array.isRequired,
-  setShowDeleteModal: PropTypes.func.isRequired,
-  setViewToDelete: PropTypes.func.isRequired
+  setShowDeleteModal: PropTypes.func,
+  setViewToDelete: PropTypes.func
 };
 
 export default ViewsTable;

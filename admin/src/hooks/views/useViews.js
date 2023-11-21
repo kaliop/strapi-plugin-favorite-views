@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { useFetchClient } from '@strapi/helper-plugin';
 
 const useViews = () => {
-  const { get, del } = useFetchClient();
+  const { get, del, put } = useFetchClient();
 
-  const [views, setViews] = useState([]);
+  const [userViews, setUserViews] = useState([]);
+  const [sharedViews, setSharedViews] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [viewToDelete, setViewToDelete] = useState(null);
 
@@ -17,7 +18,8 @@ const useViews = () => {
 
     const { data } = await get(requestURL);
 
-    setViews(data);
+    setUserViews(data.userViews);
+    setSharedViews(data.sharedViews);
   };
 
   const deleteView = async (id) => {
@@ -30,11 +32,24 @@ const useViews = () => {
     }
   };
 
+  const updateView = async (id, viewData) => {
+    if (id) {
+      const requestURL = `/favorite-views/update/${id}`;
+
+      await put(requestURL, viewData);
+
+      getViews();
+    }
+  };
+
   return {
-    views,
-    setViews,
+    userViews,
+    setUserViews,
+    sharedViews,
+    setSharedViews,
     getViews,
     deleteView,
+    updateView,
     showDeleteModal,
     setShowDeleteModal,
     viewToDelete,

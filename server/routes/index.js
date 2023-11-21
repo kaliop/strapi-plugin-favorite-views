@@ -4,8 +4,7 @@ module.exports = [
     path: '/find',
     handler: 'favoriteViews.find',
     config: {
-      policies: [],
-      auth: false
+      policies: []
     }
   },
   {
@@ -22,8 +21,15 @@ module.exports = [
     path: '/delete/:id',
     handler: 'favoriteViews.delete',
     config: {
-      policies: [],
-      auth: false
+      policies: []
+    }
+  },
+  {
+    method: 'PUT',
+    path: '/update/:id',
+    handler: 'favoriteViews.update',
+    config: {
+      policies: []
     }
   }
 ];

@@ -1,7 +1,10 @@
 {
   "Homepage.BaseHeaderLayout.title": "Vues favorites",
   "Homepage.BaseHeaderLayout.subtitle": "Retrouvez ici toutes vos vues favorites",
-  "Homepage.EmptyStateLayout.content": "Vous n'avez encore aucune vue favorite enregistrée...",
+  "Homepage.Tabs.MyViews": "Mes vues",
+  "Homepage.Tabs.SharedViews": "Vues partagées",
+  "Homepage.MyViews.EmptyStateLayout.content": "Vous n'avez encore aucune vue favorite enregistrée...",
+  "Homepage.SharedViews.EmptyStateLayout.content": "Vous n'avez encore aucune vue partagée...",
   "ViewsTable.TableHead.id": "ID",
   "ViewsTable.TableHead.name": "Nom",
   "ViewsTable.TableHead.actions": "Actions",
