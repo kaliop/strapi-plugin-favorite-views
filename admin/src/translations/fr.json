@@ -20,6 +20,10 @@
   "CreateViewModal.ModalBody.nameInputLabel": "Nom de la vue",
   "CreateViewModal.ModalBody.rolesInputLabel": "Rôles",
   "CreateViewModal.ModalBody.rolesInputPlaceholder": "Rôles avec lesquels partager une vue",
+  "CreateViewModal.ModalBody.Visibility.label": "Visible by",
+  "CreateViewModal.ModalBody.Visibility.private": "Only me",
+  "CreateViewModal.ModalBody.Visibility.public": "Everybody",
+  "CreateViewModal.ModalBody.Visibility.roles": "Les rôles suivants :",
   "CreateViewModal.ModalFooter.cancel": "Annuler",
   "CreateViewModal.ModalFooter.confirm": "Enregistrer"
 }

@@ -5,16 +5,16 @@ import getTrad from '../../utils/getTrad';
 
 import {
   Button,
-  Flex,
   ModalLayout,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  MultiSelect,
-  MultiSelectOption,
-  TextInput,
   Typography
 } from '@strapi/design-system';
+
+import CreateViewForm from '../CreateViewForm';
+
+import CONST from '../../CONST';
 
 const CreateViewModal = ({ userRoles, setShowCreateModal, addView }) => {
   const { formatMessage } = useIntl();
@@ -24,6 +24,7 @@ const CreateViewModal = ({ userRoles, setShowCreateModal, addView }) => {
 
   const [name, setName] = useState('');
   const [roles, setRoles] = useState([]);
+  const [visibility, setVisibility] = useState(CONST.VIEWS_VISIBILITY.PRIVATE);
 
   const { pathname, search } = window.location;
 
@@ -59,36 +60,15 @@ const CreateViewModal = ({ userRoles, setShowCreateModal, addView }) => {
         </Typography>
       </ModalHeader>
       <ModalBody>
-        <Flex gap={6} direction="column" alignItems="stretch">
-          <TextInput
-            name={name}
-            label={formatMessage({
-              id: getTrad('CreateViewModal.ModalBody.nameInputLabel')
-            })}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <MultiSelect
-            label={formatMessage({
-              id: getTrad('CreateViewModal.ModalBody.rolesInputLabel')
-            })}
-            placeholder={formatMessage({
-              id: getTrad('CreateViewModal.ModalBody.rolesInputPlaceholder')
-            })}
-            onClear={() => {
-              setRoles([]);
-            }}
-            value={roles}
-            onChange={setRoles}
-            withTags
-          >
-            {userRoles.map((role) => (
-              <MultiSelectOption key={role.id} value={role.code}>
-                {role.name}
-              </MultiSelectOption>
-            ))}
-          </MultiSelect>
-        </Flex>
+        <CreateViewForm
+          userRoles={userRoles}
+          name={name}
+          setName={setName}
+          visibility={visibility}
+          setVisibility={setVisibility}
+          roles={roles}
+          setRoles={setRoles}
+        />
       </ModalBody>
       <ModalFooter
         startActions={
