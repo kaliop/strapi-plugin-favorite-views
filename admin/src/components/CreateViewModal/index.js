@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import getTrad from '../../utils/getTrad';
@@ -14,23 +14,50 @@ import {
 
 import CreateViewForm from '../CreateViewForm';
 
+import useCreateView from '../../hooks/createView/useCreateView';
+
 import CONST from '../../CONST';
 
-const CreateViewModal = ({ userRoles, setShowCreateModal, addView }) => {
+const CreateViewModal = ({ setShowCreateModal, addView }) => {
   const { formatMessage } = useIntl();
+  const {
+    userRoles,
+    name,
+    setName,
+    roles,
+    setRoles,
+    visibility,
+    setVisibility,
+    nameInputError,
+    setNameInputError,
+    rolesInputError,
+    setRolesInputError
+  } = useCreateView();
 
   const MODAL_TITLE_ID = 'create-view-title';
   const ADMIN_PATH = '/admin';
-
-  const [name, setName] = useState('');
-  const [roles, setRoles] = useState([]);
-  const [visibility, setVisibility] = useState(CONST.VIEWS_VISIBILITY.PRIVATE);
 
   const { pathname, search } = window.location;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (!name) {
+      setNameInputError('Ce champ est obligatoire');
+
+      return;
+    }
+
+    if (visibility === CONST.VIEWS_VISIBILITY.ROLES && !roles.length) {
+      setRolesInputError(
+        formatMessage({
+          id: getTrad('CreateViewForm.RolesInput.emptyError')
+        })
+      );
+
+      return;
+    }
 
     const path = pathname.replace(ADMIN_PATH, '');
     const params = search;
@@ -68,6 +95,8 @@ const CreateViewModal = ({ userRoles, setShowCreateModal, addView }) => {
           setVisibility={setVisibility}
           roles={roles}
           setRoles={setRoles}
+          nameInputError={nameInputError}
+          rolesInputError={rolesInputError}
         />
       </ModalBody>
       <ModalFooter
@@ -91,7 +120,6 @@ const CreateViewModal = ({ userRoles, setShowCreateModal, addView }) => {
 };
 
 CreateViewModal.propTypes = {
-  userRoles: PropTypes.array.isRequired,
   setShowCreateModal: PropTypes.func.isRequired,
   addView: PropTypes.func.isRequired
 };

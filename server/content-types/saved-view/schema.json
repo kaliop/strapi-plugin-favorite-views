@@ -13,7 +13,8 @@
   "attributes": {
     "name": {
       "type": "string",
-      "required": true
+      "required": true,
+      "maxLength": 32
     },
     "slug": {
       "type": "string",

@@ -25,7 +25,9 @@ const CreateViewForm = ({
   visibility,
   setVisibility,
   roles,
-  setRoles
+  setRoles,
+  nameInputError,
+  rolesInputError
 }) => {
   const { formatMessage } = useIntl();
 
@@ -34,18 +36,22 @@ const CreateViewForm = ({
       <TextInput
         name={name}
         label={formatMessage({
-          id: getTrad('CreateViewModal.ModalBody.nameInputLabel')
+          id: getTrad('CreateViewForm.NameInput.label')
         })}
+        hint={formatMessage({
+          id: getTrad('CreateViewForm.NameInput.hint')
+        })}
+        error={nameInputError}
         onChange={(e) => setName(e.target.value)}
         required
       />
-      <Grid>
+      <Grid gap={6}>
         <GridItem col={6}>
           <Box as="fieldset">
             <Flex direction="column" gap={1} alignItems="stretch">
               <Typography as="legend" variant="pi" textColor="neutral800" fontWeight="bold">
                 {formatMessage({
-                  id: getTrad(`CreateViewModal.ModalBody.Visibility.label`)
+                  id: getTrad(`CreateViewForm.VisibilityInput.label`)
                 })}
               </Typography>
               <RadioGroup
@@ -57,7 +63,7 @@ const CreateViewForm = ({
                 {Object.entries(CONST.VIEWS_VISIBILITY).map(([key, value]) => (
                   <Radio key={`visibility-${key}`} value={value}>
                     {formatMessage({
-                      id: getTrad(`CreateViewModal.ModalBody.Visibility.${value}`)
+                      id: getTrad(`CreateViewForm.VisibilityInput.${value}`)
                     })}
                   </Radio>
                 ))}
@@ -65,31 +71,31 @@ const CreateViewForm = ({
             </Flex>
           </Box>
         </GridItem>
-        {visibility === CONST.VIEWS_VISIBILITY.ROLES && (
-          <GridItem col={6}>
-            <MultiSelect
-              label={formatMessage({
-                id: getTrad('CreateViewModal.ModalBody.rolesInputLabel')
-              })}
-              placeholder={formatMessage({
-                id: getTrad('CreateViewModal.ModalBody.rolesInputPlaceholder')
-              })}
-              onClear={() => {
-                setRoles([]);
-              }}
-              value={roles}
-              onChange={setRoles}
-              withTags
-              required={visibility === CONST.VIEWS_VISIBILITY.ROLES}
-            >
-              {userRoles.map((role) => (
-                <MultiSelectOption key={role.id} value={role.code}>
-                  {role.name}
-                </MultiSelectOption>
-              ))}
-            </MultiSelect>
-          </GridItem>
-        )}
+        <GridItem col={6}>
+          <MultiSelect
+            label={formatMessage({
+              id: getTrad('CreateViewForm.RolesInput.label')
+            })}
+            placeholder={formatMessage({
+              id: getTrad('CreateViewForm.RolesInput.placeholder')
+            })}
+            onClear={() => {
+              setRoles([]);
+            }}
+            value={roles}
+            onChange={setRoles}
+            error={rolesInputError}
+            withTags
+            disabled={visibility !== CONST.VIEWS_VISIBILITY.ROLES}
+            required={visibility === CONST.VIEWS_VISIBILITY.ROLES}
+          >
+            {userRoles.map((role) => (
+              <MultiSelectOption key={role.id} value={role.code}>
+                {role.name}
+              </MultiSelectOption>
+            ))}
+          </MultiSelect>
+        </GridItem>
       </Grid>
     </Flex>
   );
@@ -102,7 +108,9 @@ CreateViewForm.propTypes = {
   visibility: PropTypes.string.isRequired,
   setVisibility: PropTypes.func.isRequired,
   roles: PropTypes.array.isRequired,
-  setRoles: PropTypes.func.isRequired
+  setRoles: PropTypes.func.isRequired,
+  nameInputError: PropTypes.string.isRequired,
+  rolesInputError: PropTypes.string.isRequired
 };
 
 export default CreateViewForm;

@@ -13,7 +13,7 @@ import useViews from '../../hooks/views/useViews';
 
 const ViewsWidget = () => {
   const { formatMessage } = useIntl();
-  const { userRoles, viewsMenuVisible, setViewsMenuVisible, showCreateModal, setShowCreateModal } =
+  const { viewsMenuVisible, setViewsMenuVisible, showCreateModal, setShowCreateModal } =
     useViewsWidget();
   const { userViews, addView } = useViews();
   const viewsButtonRef = useRef(null);
@@ -45,11 +45,7 @@ const ViewsWidget = () => {
         />
       )}
       {showCreateModal && (
-        <CreateViewModal
-          userRoles={userRoles}
-          setShowCreateModal={setShowCreateModal}
-          addView={addView}
-        />
+        <CreateViewModal setShowCreateModal={setShowCreateModal} addView={addView} />
       )}
     </>
   );
