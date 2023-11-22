@@ -17,9 +17,12 @@ module.exports = ({ strapi }) => ({
         const allViews = await strapi.entityService.findMany('plugin::favorite-views.saved-view', {
           populate: ['createdBy']
         });
-        const allRolesViews = allViews.filter((view) =>
-          view.roles?.some((role) => userRoles.includes(role))
-        );
+        const allRolesViews = allViews.filter((view) => {
+          if (view.roles.length && !view.public && !view.private) {
+            return view.roles?.some((role) => userRoles.includes(role));
+          }
+          return view.public;
+        });
         sharedViews = allRolesViews.filter((view) => view.createdBy.id !== user.id);
       }
 
@@ -29,14 +32,22 @@ module.exports = ({ strapi }) => ({
     }
   },
   async create(name, slug, roles, userId) {
-    return await strapi.entityService.create('plugin::favorite-views.saved-view', {
-      data: {
-        name,
-        slug,
-        roles,
-        createdBy: userId
+    if (userId) {
+      try {
+        return await strapi.entityService.create('plugin::favorite-views.saved-view', {
+          data: {
+            name,
+            slug,
+            roles,
+            createdBy: userId
+          }
+        });
+      } catch (error) {
+        throw new Error(`Create view error : ${error}`);
       }
-    });
+    } else {
+      throw new Error('UserId is not defined');
+    }
   },
   async delete(id) {
     if (id) {
