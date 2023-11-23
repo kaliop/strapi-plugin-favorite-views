@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { useIntl } from 'react-intl';
@@ -20,7 +20,9 @@ import {
 import { Link } from '@strapi/design-system/v2';
 import { Trash } from '@strapi/icons';
 
-const TableHead = () => {
+import { ViewsContext } from '../../hooks/views/ViewsContext';
+
+const TableHead = ({ showActions }) => {
   const { formatMessage } = useIntl();
 
   return (
@@ -40,20 +42,28 @@ const TableHead = () => {
             })}
           </Typography>
         </Th>
-        <Th>
-          <VisuallyHidden>
-            {formatMessage({
-              id: getTrad('ViewsTable.TableHead.actions')
-            })}
-          </VisuallyHidden>
-        </Th>
+        {showActions && (
+          <Th>
+            <VisuallyHidden>
+              {formatMessage({
+                id: getTrad('ViewsTable.TableHead.actions')
+              })}
+            </VisuallyHidden>
+          </Th>
+        )}
       </Tr>
     </Thead>
   );
 };
 
-const TableRow = ({ view, setShowDeleteModal, setViewToDelete }) => {
+TableHead.propTypes = {
+  showActions: PropTypes.boolean
+};
+
+const TableRow = ({ view, showActions }) => {
   const { formatMessage } = useIntl();
+
+  const { setShowDeleteModal, setViewToDelete } = useContext(ViewsContext);
 
   const deleteView = (view) => {
     setShowDeleteModal(true);
@@ -72,9 +82,9 @@ const TableRow = ({ view, setShowDeleteModal, setViewToDelete }) => {
           </Link>
         </Box>
       </Td>
-      <Td>
-        <Flex justifyContent="right" gap={1}>
-          {setShowDeleteModal && (
+      {showActions && (
+        <Td>
+          <Flex justifyContent="right" gap={1}>
             <IconButton
               onClick={() => deleteView(view)}
               label={formatMessage({
@@ -83,35 +93,29 @@ const TableRow = ({ view, setShowDeleteModal, setViewToDelete }) => {
               noBorder
               icon={<Trash />}
             />
-          )}
-        </Flex>
-      </Td>
+          </Flex>
+        </Td>
+      )}
     </Tr>
   );
 };
 
 TableRow.propTypes = {
   view: PropTypes.object.isRequired,
-  setShowDeleteModal: PropTypes.func,
-  setViewToDelete: PropTypes.func
+  showActions: PropTypes.boolean
 };
 
-const ViewsTable = ({ views, setShowDeleteModal, setViewToDelete }) => {
-  const COL_COUNT = 3;
+const ViewsTable = ({ views, showActions }) => {
+  const COL_COUNT = showActions ? 3 : 2;
   const ROW_COUNT = views.length;
 
   return (
     <>
       <Table colCount={COL_COUNT} rowCount={ROW_COUNT}>
-        <TableHead />
+        <TableHead showActions={showActions || null} />
         <Tbody>
           {views.map((view) => (
-            <TableRow
-              key={view.id}
-              view={view}
-              setShowDeleteModal={setShowDeleteModal}
-              setViewToDelete={setViewToDelete}
-            />
+            <TableRow key={view.id} view={view} showActions={showActions || null} />
           ))}
         </Tbody>
       </Table>
@@ -121,8 +125,7 @@ const ViewsTable = ({ views, setShowDeleteModal, setViewToDelete }) => {
 
 ViewsTable.propTypes = {
   views: PropTypes.array.isRequired,
-  setShowDeleteModal: PropTypes.func,
-  setViewToDelete: PropTypes.func
+  showActions: PropTypes.boolean
 };
 
 export default ViewsTable;

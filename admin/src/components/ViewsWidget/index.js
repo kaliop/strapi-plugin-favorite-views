@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import getTrad from '../../utils/getTrad';
 
@@ -9,13 +9,13 @@ import ViewsListPopover from '../ViewsListPopover';
 import CreateViewModal from '../CreateViewModal';
 
 import useViewsWidget from '../../hooks/viewsWidget/useViewsWidget';
-import useViews from '../../hooks/views/useViews';
+import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 const ViewsWidget = () => {
   const { formatMessage } = useIntl();
   const { viewsMenuVisible, setViewsMenuVisible, showCreateModal, setShowCreateModal } =
     useViewsWidget();
-  const { userViews, addView } = useViews();
+  const { userViews } = useContext(ViewsContext);
   const viewsButtonRef = useRef(null);
 
   return (
@@ -44,9 +44,7 @@ const ViewsWidget = () => {
           setViewsMenuVisible={setViewsMenuVisible}
         />
       )}
-      {showCreateModal && (
-        <CreateViewModal setShowCreateModal={setShowCreateModal} addView={addView} />
-      )}
+      {showCreateModal && <CreateViewModal setShowCreateModal={setShowCreateModal} />}
     </>
   );
 };

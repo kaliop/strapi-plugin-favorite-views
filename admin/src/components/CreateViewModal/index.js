@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import getTrad from '../../utils/getTrad';
+
+import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 import {
   Button,
@@ -18,7 +20,7 @@ import useCreateView from '../../hooks/createView/useCreateView';
 
 import CONST from '../../CONST';
 
-const CreateViewModal = ({ setShowCreateModal, addView }) => {
+const CreateViewModal = ({ setShowCreateModal }) => {
   const { formatMessage } = useIntl();
   const {
     userRoles,
@@ -33,6 +35,7 @@ const CreateViewModal = ({ setShowCreateModal, addView }) => {
     rolesInputError,
     setRolesInputError
   } = useCreateView();
+  const { addView } = useContext(ViewsContext);
 
   const MODAL_TITLE_ID = 'create-view-title';
   const ADMIN_PATH = '/admin';
@@ -120,8 +123,7 @@ const CreateViewModal = ({ setShowCreateModal, addView }) => {
 };
 
 CreateViewModal.propTypes = {
-  setShowCreateModal: PropTypes.func.isRequired,
-  addView: PropTypes.func.isRequired
+  setShowCreateModal: PropTypes.func.isRequired
 };
 
 export default CreateViewModal;
