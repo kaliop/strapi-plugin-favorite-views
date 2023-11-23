@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import getTrad from '../../utils/getTrad';
+
+import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 import {
   Button,
@@ -16,8 +18,9 @@ import {
   Typography
 } from '@strapi/design-system';
 
-const CreateViewModal = ({ userRoles, setShowCreateModal, addView }) => {
+const CreateViewModal = ({ userRoles, setShowCreateModal }) => {
   const { formatMessage } = useIntl();
+  const { addView } = useContext(ViewsContext);
 
   const MODAL_TITLE_ID = 'create-view-title';
   const ADMIN_PATH = '/admin';
@@ -112,8 +115,7 @@ const CreateViewModal = ({ userRoles, setShowCreateModal, addView }) => {
 
 CreateViewModal.propTypes = {
   userRoles: PropTypes.array.isRequired,
-  setShowCreateModal: PropTypes.func.isRequired,
-  addView: PropTypes.func.isRequired
+  setShowCreateModal: PropTypes.func.isRequired
 };
 
 export default CreateViewModal;

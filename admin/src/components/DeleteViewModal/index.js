@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import { useIntl } from 'react-intl';
 import getTrad from '../../utils/getTrad';
 
@@ -15,15 +14,19 @@ import {
 } from '@strapi/design-system';
 import { Trash } from '@strapi/icons';
 
-const DeleteViewModal = ({ setShowDeleteModal, viewToDelete, onDeleteView }) => {
+import { ViewsContext } from '../../hooks/views/ViewsContext';
+
+const DeleteViewModal = () => {
   const { formatMessage } = useIntl();
+  const { setShowDeleteModal, viewToDelete, deleteView } = useContext(ViewsContext);
+
   const MODAL_TITLE_ID = 'delete-view-title';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    await onDeleteView(viewToDelete?.id);
+    await deleteView(viewToDelete?.id);
 
     setShowDeleteModal(false);
   };
@@ -79,12 +82,6 @@ const DeleteViewModal = ({ setShowDeleteModal, viewToDelete, onDeleteView }) => 
       />
     </ModalLayout>
   );
-};
-
-DeleteViewModal.propTypes = {
-  setShowDeleteModal: PropTypes.func.isRequired,
-  viewToDelete: PropTypes.object.isRequired,
-  onDeleteView: PropTypes.func.isRequired
 };
 
 export default DeleteViewModal;

@@ -1,9 +1,12 @@
+import React from 'react';
 import { prefixPluginTranslations } from '@strapi/helper-plugin';
 import pluginId from './pluginId';
+
 import Initializer from './components/Initializer';
 import PluginIcon from './components/PluginIcon';
-
 import ViewsWidget from './components/ViewsWidget';
+
+import { ViewsProvider } from './hooks/views/ViewsContext';
 
 const name = 'Favorite Views';
 
@@ -40,7 +43,11 @@ export default {
   bootstrap(app) {
     app.injectContentManagerComponent('listView', 'actions', {
       name: 'favorite-views-widget',
-      Component: ViewsWidget
+      Component: () => (
+        <ViewsProvider>
+          <ViewsWidget />
+        </ViewsProvider>
+      )
     });
   },
   async registerTrads({ locales }) {
