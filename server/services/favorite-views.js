@@ -3,10 +3,25 @@
 module.exports = ({ strapi }) => ({
   async find(user) {
     try {
-      let userViews = [];
+      let userPrivateViews = [];
       if (user) {
-        userViews = await strapi.entityService.findMany('plugin::favorite-views.saved-view', {
-          filters: { createdBy: { id: user.id } },
+        userPrivateViews = await strapi.entityService.findMany(
+          'plugin::favorite-views.saved-view',
+          {
+            filters: {
+              $and: [{ createdBy: { id: user.id } }, { visibility: 'private' }]
+            },
+            populate: ['createdBy']
+          }
+        );
+      }
+
+      let userSharedViews = [];
+      if (user) {
+        userSharedViews = await strapi.entityService.findMany('plugin::favorite-views.saved-view', {
+          filters: {
+            $and: [{ createdBy: { id: user.id } }, { visibility: { $in: ['public', 'roles'] } }]
+          },
           populate: ['createdBy']
         });
       }
@@ -17,21 +32,21 @@ module.exports = ({ strapi }) => ({
         const allViews = await strapi.entityService.findMany('plugin::favorite-views.saved-view', {
           populate: ['createdBy']
         });
-        const allRolesViews = allViews.filter((view) => {
-          if (view.roles.length && !view.public && !view.private) {
+        const allSharedViews = allViews.filter((view) => view.createdBy.id !== user.id);
+        sharedViews = allSharedViews.filter((view) => {
+          if (view.roles.length && view.visibility === 'roles') {
             return view.roles?.some((role) => userRoles.includes(role));
           }
-          return view.public;
+          return view.visibility === 'public';
         });
-        sharedViews = allRolesViews.filter((view) => view.createdBy.id !== user.id);
       }
 
-      return { userViews, sharedViews };
+      return { userPrivateViews, userSharedViews, sharedViews };
     } catch (error) {
       throw new Error(`Find favorite views error : ${error}`);
     }
   },
-  async create(name, slug, roles, userId) {
+  async create(name, slug, roles, visibility, userId) {
     if (userId) {
       try {
         return await strapi.entityService.create('plugin::favorite-views.saved-view', {
@@ -39,6 +54,7 @@ module.exports = ({ strapi }) => ({
             name,
             slug,
             roles,
+            visibility,
             createdBy: userId
           }
         });
@@ -60,11 +76,17 @@ module.exports = ({ strapi }) => ({
       throw new Error('Id is not defined');
     }
   },
-  async update(id, name, url, roles) {
+  async update(id, name, url, roles, visibility, userId) {
     if (id) {
       try {
         return await strapi.entityService.update('plugin::favorites-views.favoriteview', id, {
-          data: { name, url, roles }
+          data: {
+            name,
+            url,
+            roles,
+            visibility,
+            updatedBy: userId
+          }
         });
       } catch (error) {
         throw new Error(`View update failed : ${error}`);

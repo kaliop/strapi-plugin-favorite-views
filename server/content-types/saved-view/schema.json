@@ -24,9 +24,11 @@
       "type": "json",
       "default": []
     },
-    "public": {
-      "type": "boolean",
-      "default": false
+    "visibility": {
+      "type": "enumeration",
+      "enum": ["private", "public", "roles"],
+      "required": true,
+      "default": "private"
     }
   }
 }

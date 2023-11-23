@@ -7,6 +7,8 @@ const useViews = () => {
   const { get, post, del, put } = useFetchClient();
 
   const [userViews, setUserViews] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [userSharedViews, setUserSharedViews] = useState([]);
   const [sharedViews, setSharedViews] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [viewToDelete, setViewToDelete] = useState(null);
@@ -18,7 +20,8 @@ const useViews = () => {
   const getViews = async () => {
     const { data } = await get(CONST.REQUEST_URLS.GET_VIEWS);
 
-    setUserViews(data.userViews);
+    setUserViews(data.userPrivateViews);
+    setUserSharedViews(data.userSharedViews);
     setSharedViews(data.sharedViews);
   };
 
