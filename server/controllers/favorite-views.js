@@ -23,12 +23,12 @@ module.exports = ({ strapi }) => ({
   async update(ctx) {
     const { id } = ctx.params;
     const userId = ctx.state.user.id;
-    const { name, url, roles, visibility } = ctx.request.body;
+    const { name, slug, roles, visibility } = ctx.request.body;
 
     ctx.body = await strapi
       .plugin('favorites-views')
       .service('favoriteViews')
-      .update(id, name, url, roles, visibility, userId);
+      .update(id, name, slug, roles, visibility, userId);
   },
   async getRoles(ctx) {
     ctx.body = await strapi.plugin('favorite-views').service('favoriteViews').getRoles();

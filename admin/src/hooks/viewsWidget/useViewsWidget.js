@@ -23,13 +23,25 @@ const useViewsWidget = () => {
   }, []);
 
   useEffect(() => {
+    resetForm();
+  }, [showCreateModal]);
+
+  useEffect(() => {
     setFormErrors();
-  }, [viewName, viewRoles]);
+  }, [viewName, viewVisibility, viewRoles]);
 
   const getUserRoles = async () => {
     const { data } = await get(CONST.REQUEST_URLS.GET_ROLES);
 
     setUserRoles(data);
+  };
+
+  const resetForm = () => {
+    setViewName('');
+    setViewVisibility(CONST.VIEWS_VISIBILITY.PRIVATE);
+    setViewRoles([]);
+    setNameInputError('');
+    setRolesInputError('');
   };
 
   const setFormErrors = () => {
@@ -43,7 +55,7 @@ const useViewsWidget = () => {
       setNameInputError('');
     }
 
-    if (viewRoles.length) {
+    if (viewRoles.length || viewVisibility !== CONST.VIEWS_VISIBILITY.ROLES) {
       setRolesInputError('');
     }
   };

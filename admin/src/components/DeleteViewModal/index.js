@@ -53,7 +53,7 @@ const DeleteViewModal = () => {
             })}
           </Typography>
           <Box marginTop={2} marginBottom={2}>
-            <Typography padding={2} as="p" textAlign="center" fontWeight="bold">
+            <Typography padding={2} as="p" textAlign="center" variant="delta">
               {viewToDelete?.name}
             </Typography>
           </Box>

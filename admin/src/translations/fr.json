@@ -16,6 +16,7 @@
   "DeleteViewModal.ModalFooter.confirm": "Confirmer",
   "ViewsWidget.actions.create": "Créer une vue",
   "ViewsWidget.actions.showList": "Liste des vues",
+  "ViewsWidget.ViewsPopover.emptyList": "Vous n'avez encore aucune vue privée enregistrée...",
   "CreateViewModal.ModalHeader.title": "Ajouter une nouvelle vue",
   "CreateViewModal.ModalFooter.cancel": "Annuler",
   "CreateViewModal.ModalFooter.confirm": "Enregistrer",

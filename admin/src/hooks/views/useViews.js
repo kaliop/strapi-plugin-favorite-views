@@ -6,9 +6,8 @@ import CONST from '../../CONST';
 const useViews = () => {
   const { get, post, del, put } = useFetchClient();
 
+  const [privateViews, setPrivateViews] = useState([]);
   const [userViews, setUserViews] = useState([]);
-  // eslint-disable-next-line no-unused-vars
-  const [userSharedViews, setUserSharedViews] = useState([]);
   const [sharedViews, setSharedViews] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [viewToDelete, setViewToDelete] = useState(null);
@@ -20,8 +19,8 @@ const useViews = () => {
   const getViews = async () => {
     const { data } = await get(CONST.REQUEST_URLS.GET_VIEWS);
 
-    setUserViews(data.userPrivateViews);
-    setUserSharedViews(data.userSharedViews);
+    setPrivateViews(data.privateViews);
+    setUserViews(data.userViews);
     setSharedViews(data.sharedViews);
   };
 
@@ -48,6 +47,8 @@ const useViews = () => {
   };
 
   return {
+    privateViews,
+    setPrivateViews,
     userViews,
     setUserViews,
     sharedViews,

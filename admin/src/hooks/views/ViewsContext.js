@@ -7,6 +7,7 @@ const ViewsContext = createContext(null);
 
 const ViewsProvider = ({ children }) => {
   const {
+    privateViews,
     userViews,
     sharedViews,
     showDeleteModal,
@@ -20,6 +21,7 @@ const ViewsProvider = ({ children }) => {
   return (
     <ViewsContext.Provider
       value={{
+        privateViews,
         userViews,
         sharedViews,
         showDeleteModal,

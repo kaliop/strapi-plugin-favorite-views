@@ -45,6 +45,8 @@ const CreateViewModal = () => {
       return;
     }
 
+    if (viewName.length > 32) return;
+
     if (viewVisibility === CONST.VIEWS_VISIBILITY.ROLES && !viewRoles.length) {
       setRolesInputError(
         formatMessage({
@@ -60,7 +62,7 @@ const CreateViewModal = () => {
     const slug = `${path}${params}`;
 
     try {
-      await addView({ name: viewName, slug, roles: viewRoles });
+      await addView({ name: viewName, slug, roles: viewRoles, visibility: viewVisibility });
 
       setShowCreateModal(false);
     } catch (error) {

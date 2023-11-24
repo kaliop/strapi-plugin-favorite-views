@@ -13,7 +13,7 @@ import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 const ViewsWidget = () => {
   const { formatMessage } = useIntl();
-  const { userViews } = useContext(ViewsContext);
+  const { privateViews } = useContext(ViewsContext);
   const { viewsPopoverVisible, setViewsPopoverVisible, showCreateModal, setShowCreateModal } =
     useContext(ViewsWidgetContext);
   const viewsButtonRef = useRef(null);
@@ -38,7 +38,7 @@ const ViewsWidget = () => {
         </Button>
       </Flex>
       {viewsPopoverVisible && (
-        <ViewsListPopover viewsButtonRef={viewsButtonRef} views={userViews} />
+        <ViewsListPopover viewsButtonRef={viewsButtonRef} views={privateViews} />
       )}
       {showCreateModal && <CreateViewModal />}
     </>

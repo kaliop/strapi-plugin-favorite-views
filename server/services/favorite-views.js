@@ -3,22 +3,19 @@
 module.exports = ({ strapi }) => ({
   async find(user) {
     try {
-      let userPrivateViews = [];
+      let privateViews = [];
       if (user) {
-        userPrivateViews = await strapi.entityService.findMany(
-          'plugin::favorite-views.saved-view',
-          {
-            filters: {
-              $and: [{ createdBy: { id: user.id } }, { visibility: 'private' }]
-            },
-            populate: ['createdBy']
-          }
-        );
+        privateViews = await strapi.entityService.findMany('plugin::favorite-views.saved-view', {
+          filters: {
+            $and: [{ createdBy: { id: user.id } }, { visibility: 'private' }]
+          },
+          populate: ['createdBy']
+        });
       }
 
-      let userSharedViews = [];
+      let userViews = [];
       if (user) {
-        userSharedViews = await strapi.entityService.findMany('plugin::favorite-views.saved-view', {
+        userViews = await strapi.entityService.findMany('plugin::favorite-views.saved-view', {
           filters: {
             $and: [{ createdBy: { id: user.id } }, { visibility: { $in: ['public', 'roles'] } }]
           },
@@ -41,7 +38,7 @@ module.exports = ({ strapi }) => ({
         });
       }
 
-      return { userPrivateViews, userSharedViews, sharedViews };
+      return { privateViews, userViews, sharedViews };
     } catch (error) {
       throw new Error(`Find favorite views error : ${error}`);
     }
@@ -76,13 +73,13 @@ module.exports = ({ strapi }) => ({
       throw new Error('Id is not defined');
     }
   },
-  async update(id, name, url, roles, visibility, userId) {
+  async update(id, name, slug, roles, visibility, userId) {
     if (id) {
       try {
         return await strapi.entityService.update('plugin::favorites-views.favoriteview', id, {
           data: {
             name,
-            url,
+            slug,
             roles,
             visibility,
             updatedBy: userId
