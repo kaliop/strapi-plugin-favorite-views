@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import { useIntl } from 'react-intl';
 import getTrad from '../../utils/getTrad';
 
@@ -16,25 +15,28 @@ import {
   Typography
 } from '@strapi/design-system';
 
+import { ViewsWidgetContext } from '../../hooks/viewsWidget/ViewsWidgetContext';
+
 import CONST from '../../CONST';
 
-const CreateViewForm = ({
-  userRoles,
-  name,
-  setName,
-  visibility,
-  setVisibility,
-  roles,
-  setRoles,
-  nameInputError,
-  rolesInputError
-}) => {
+const CreateViewForm = () => {
   const { formatMessage } = useIntl();
+  const {
+    userRoles,
+    viewName,
+    setViewName,
+    viewVisibility,
+    setViewVisibility,
+    viewRoles,
+    setViewRoles,
+    nameInputError,
+    rolesInputError
+  } = useContext(ViewsWidgetContext);
 
   return (
     <Flex gap={6} direction="column" alignItems="stretch">
       <TextInput
-        name={name}
+        name={viewName}
         label={formatMessage({
           id: getTrad('CreateViewForm.NameInput.label')
         })}
@@ -42,7 +44,7 @@ const CreateViewForm = ({
           id: getTrad('CreateViewForm.NameInput.hint')
         })}
         error={nameInputError}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e) => setViewName(e.target.value)}
         required
       />
       <Grid gap={6}>
@@ -56,8 +58,8 @@ const CreateViewForm = ({
               </Typography>
               <RadioGroup
                 labelledBy="trophy-champions"
-                onChange={(e) => setVisibility(e.target.value)}
-                value={visibility}
+                onChange={(e) => setViewVisibility(e.target.value)}
+                value={viewVisibility}
                 name="visibility"
               >
                 {Object.entries(CONST.VIEWS_VISIBILITY).map(([key, value]) => (
@@ -80,14 +82,14 @@ const CreateViewForm = ({
               id: getTrad('CreateViewForm.RolesInput.placeholder')
             })}
             onClear={() => {
-              setRoles([]);
+              setViewRoles([]);
             }}
-            value={roles}
-            onChange={setRoles}
+            value={viewRoles}
+            onChange={setViewRoles}
             error={rolesInputError}
             withTags
-            disabled={visibility !== CONST.VIEWS_VISIBILITY.ROLES}
-            required={visibility === CONST.VIEWS_VISIBILITY.ROLES}
+            disabled={viewVisibility !== CONST.VIEWS_VISIBILITY.ROLES}
+            required={viewVisibility === CONST.VIEWS_VISIBILITY.ROLES}
           >
             {userRoles.map((role) => (
               <MultiSelectOption key={role.id} value={role.code}>
@@ -99,18 +101,6 @@ const CreateViewForm = ({
       </Grid>
     </Flex>
   );
-};
-
-CreateViewForm.propTypes = {
-  userRoles: PropTypes.array.isRequired,
-  name: PropTypes.string.isRequired,
-  setName: PropTypes.func.isRequired,
-  visibility: PropTypes.string.isRequired,
-  setVisibility: PropTypes.func.isRequired,
-  roles: PropTypes.array.isRequired,
-  setRoles: PropTypes.func.isRequired,
-  nameInputError: PropTypes.string.isRequired,
-  rolesInputError: PropTypes.string.isRequired
 };
 
 export default CreateViewForm;

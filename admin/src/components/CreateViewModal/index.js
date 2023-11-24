@@ -1,9 +1,6 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import getTrad from '../../utils/getTrad';
-
-import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 import {
   Button,
@@ -16,26 +13,22 @@ import {
 
 import CreateViewForm from '../CreateViewForm';
 
-import useCreateView from '../../hooks/createView/useCreateView';
+import { ViewsContext } from '../../hooks/views/ViewsContext';
+import { ViewsWidgetContext } from '../../hooks/viewsWidget/ViewsWidgetContext';
 
 import CONST from '../../CONST';
 
-const CreateViewModal = ({ setShowCreateModal }) => {
+const CreateViewModal = () => {
   const { formatMessage } = useIntl();
-  const {
-    userRoles,
-    name,
-    setName,
-    roles,
-    setRoles,
-    visibility,
-    setVisibility,
-    nameInputError,
-    setNameInputError,
-    rolesInputError,
-    setRolesInputError
-  } = useCreateView();
   const { addView } = useContext(ViewsContext);
+  const {
+    setShowCreateModal,
+    viewName,
+    viewRoles,
+    viewVisibility,
+    setNameInputError,
+    setRolesInputError
+  } = useContext(ViewsWidgetContext);
 
   const MODAL_TITLE_ID = 'create-view-title';
   const ADMIN_PATH = '/admin';
@@ -46,13 +39,13 @@ const CreateViewModal = ({ setShowCreateModal }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!name) {
+    if (!viewName) {
       setNameInputError('Ce champ est obligatoire');
 
       return;
     }
 
-    if (visibility === CONST.VIEWS_VISIBILITY.ROLES && !roles.length) {
+    if (viewVisibility === CONST.VIEWS_VISIBILITY.ROLES && !viewRoles.length) {
       setRolesInputError(
         formatMessage({
           id: getTrad('CreateViewForm.RolesInput.emptyError')
@@ -67,7 +60,7 @@ const CreateViewModal = ({ setShowCreateModal }) => {
     const slug = `${path}${params}`;
 
     try {
-      await addView({ name, slug, roles });
+      await addView({ name: viewName, slug, roles: viewRoles });
 
       setShowCreateModal(false);
     } catch (error) {
@@ -90,17 +83,7 @@ const CreateViewModal = ({ setShowCreateModal }) => {
         </Typography>
       </ModalHeader>
       <ModalBody>
-        <CreateViewForm
-          userRoles={userRoles}
-          name={name}
-          setName={setName}
-          visibility={visibility}
-          setVisibility={setVisibility}
-          roles={roles}
-          setRoles={setRoles}
-          nameInputError={nameInputError}
-          rolesInputError={rolesInputError}
-        />
+        <CreateViewForm />
       </ModalBody>
       <ModalFooter
         startActions={
@@ -120,10 +103,6 @@ const CreateViewModal = ({ setShowCreateModal }) => {
       />
     </ModalLayout>
   );
-};
-
-CreateViewModal.propTypes = {
-  setShowCreateModal: PropTypes.func.isRequired
 };
 
 export default CreateViewModal;

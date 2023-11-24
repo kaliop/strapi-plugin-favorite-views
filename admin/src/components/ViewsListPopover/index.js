@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 import { Box, Popover, Link } from '@strapi/design-system';
 
-const ViewsListPopover = ({ views, viewsButtonRef, setViewsMenuVisible }) => {
+import { ViewsWidgetContext } from '../../hooks/viewsWidget/ViewsWidgetContext';
+
+const ViewsListPopover = ({ views, viewsButtonRef }) => {
+  const { setViewsPopoverVisible } = useContext(ViewsWidgetContext);
+
   return (
     <Popover
       source={viewsButtonRef}
       spacing={4}
       placement="bottom-end"
-      onDismiss={() => setViewsMenuVisible(false)}
+      onDismiss={() => setViewsPopoverVisible(false)}
     >
       <ul>
         {views.map((view) => (
@@ -27,8 +31,7 @@ const ViewsListPopover = ({ views, viewsButtonRef, setViewsMenuVisible }) => {
 
 ViewsListPopover.propTypes = {
   views: PropTypes.array.isRequired,
-  viewsButtonRef: PropTypes.object.isRequired,
-  setViewsMenuVisible: PropTypes.func.isRequired
+  viewsButtonRef: PropTypes.object.isRequired
 };
 
 export default ViewsListPopover;

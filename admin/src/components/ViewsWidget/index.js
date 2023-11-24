@@ -8,14 +8,14 @@ import { List, Plus } from '@strapi/icons';
 import ViewsListPopover from '../ViewsListPopover';
 import CreateViewModal from '../CreateViewModal';
 
-import useViewsWidget from '../../hooks/viewsWidget/useViewsWidget';
+import { ViewsWidgetContext } from '../../hooks/viewsWidget/ViewsWidgetContext';
 import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 const ViewsWidget = () => {
   const { formatMessage } = useIntl();
-  const { viewsMenuVisible, setViewsMenuVisible, showCreateModal, setShowCreateModal } =
-    useViewsWidget();
   const { userViews } = useContext(ViewsContext);
+  const { viewsPopoverVisible, setViewsPopoverVisible, showCreateModal, setShowCreateModal } =
+    useContext(ViewsWidgetContext);
   const viewsButtonRef = useRef(null);
 
   return (
@@ -30,21 +30,17 @@ const ViewsWidget = () => {
           ref={viewsButtonRef}
           variant="tertiary"
           startIcon={<List />}
-          onClick={() => setViewsMenuVisible((s) => !s)}
+          onClick={() => setViewsPopoverVisible((s) => !s)}
         >
           {formatMessage({
             id: getTrad('ViewsWidget.actions.showList')
           })}
         </Button>
       </Flex>
-      {viewsMenuVisible && (
-        <ViewsListPopover
-          viewsButtonRef={viewsButtonRef}
-          views={userViews}
-          setViewsMenuVisible={setViewsMenuVisible}
-        />
+      {viewsPopoverVisible && (
+        <ViewsListPopover viewsButtonRef={viewsButtonRef} views={userViews} />
       )}
-      {showCreateModal && <CreateViewModal setShowCreateModal={setShowCreateModal} />}
+      {showCreateModal && <CreateViewModal />}
     </>
   );
 };
