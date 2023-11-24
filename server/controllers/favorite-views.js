@@ -8,12 +8,12 @@ module.exports = ({ strapi }) => ({
   },
   async create(ctx) {
     const userId = ctx.state.user.id;
-    const { name, slug, roles } = ctx.request.body;
+    const { name, slug, roles, visibility } = ctx.request.body;
 
     ctx.body = await strapi
       .plugin('favorite-views')
       .service('favoriteViews')
-      .create(name, slug, roles, userId);
+      .create(name, slug, roles, visibility, userId);
   },
   async delete(ctx) {
     const { id } = ctx.params;
@@ -22,12 +22,13 @@ module.exports = ({ strapi }) => ({
   },
   async update(ctx) {
     const { id } = ctx.params;
-    const { name, url, roles } = ctx.request.body;
+    const userId = ctx.state.user.id;
+    const { name, url, roles, visibility } = ctx.request.body;
 
     ctx.body = await strapi
       .plugin('favorites-views')
       .service('favoriteViews')
-      .update(id, name, url, roles);
+      .update(id, name, url, roles, visibility, userId);
   },
   async getRoles(ctx) {
     ctx.body = await strapi.plugin('favorite-views').service('favoriteViews').getRoles();
