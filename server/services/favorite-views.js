@@ -73,13 +73,12 @@ module.exports = ({ strapi }) => ({
       throw new Error('Id is not defined');
     }
   },
-  async update(id, name, slug, roles, visibility, userId) {
+  async update(id, name, roles, visibility, userId) {
     if (id) {
       try {
-        return await strapi.entityService.update('plugin::favorites-views.favoriteview', id, {
+        return await strapi.entityService.update('plugin::favorite-views.saved-view', id, {
           data: {
             name,
-            slug,
             roles,
             visibility,
             updatedBy: userId

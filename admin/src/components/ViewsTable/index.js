@@ -18,7 +18,7 @@ import {
   VisuallyHidden
 } from '@strapi/design-system';
 import { Link } from '@strapi/design-system/v2';
-import { Trash } from '@strapi/icons';
+import { Pencil, Trash } from '@strapi/icons';
 
 import { ViewsContext } from '../../hooks/views/ViewsContext';
 
@@ -57,17 +57,23 @@ const TableHead = ({ showActions }) => {
 };
 
 TableHead.propTypes = {
-  showActions: PropTypes.boolean
+  showActions: PropTypes.bool
 };
 
 const TableRow = ({ view, showActions }) => {
   const { formatMessage } = useIntl();
 
-  const { setShowDeleteModal, setViewToDelete } = useContext(ViewsContext);
+  const { setShowUpdateModal, setViewToUpdate, setShowDeleteModal, setViewToDelete } =
+    useContext(ViewsContext);
 
   const deleteView = (view) => {
     setShowDeleteModal(true);
     setViewToDelete(view);
+  };
+
+  const updateView = (view) => {
+    setShowUpdateModal(true);
+    setViewToUpdate(view);
   };
 
   return (
@@ -86,6 +92,14 @@ const TableRow = ({ view, showActions }) => {
         <Td>
           <Flex justifyContent="right" gap={1}>
             <IconButton
+              onClick={() => updateView(view)}
+              label={formatMessage({
+                id: getTrad('ViewsTable.TableRow.update')
+              })}
+              noBorder
+              icon={<Pencil />}
+            />
+            <IconButton
               onClick={() => deleteView(view)}
               label={formatMessage({
                 id: getTrad('ViewsTable.TableRow.delete')
@@ -102,7 +116,7 @@ const TableRow = ({ view, showActions }) => {
 
 TableRow.propTypes = {
   view: PropTypes.object.isRequired,
-  showActions: PropTypes.boolean
+  showActions: PropTypes.bool
 };
 
 const ViewsTable = ({ views, showActions }) => {
@@ -125,7 +139,7 @@ const ViewsTable = ({ views, showActions }) => {
 
 ViewsTable.propTypes = {
   views: PropTypes.array.isRequired,
-  showActions: PropTypes.boolean
+  showActions: PropTypes.bool
 };
 
 export default ViewsTable;

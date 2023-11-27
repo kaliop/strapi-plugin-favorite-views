@@ -4,10 +4,10 @@ import getTrad from '../../utils/getTrad';
 
 import {
   Button,
-  ModalLayout,
-  ModalHeader,
   ModalBody,
   ModalFooter,
+  ModalHeader,
+  ModalLayout,
   Typography
 } from '@strapi/design-system';
 
@@ -17,22 +17,21 @@ import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 import CONST from '../../CONST';
 
-const CreateViewModal = () => {
+const UpdateViewModal = () => {
   const { formatMessage } = useIntl();
   const {
-    addView,
-    setShowCreateModal,
+    viewToUpdate,
+    setViewToUpdate,
+    setShowUpdateModal,
     viewName,
-    viewRoles,
     viewVisibility,
+    viewRoles,
     setNameInputError,
-    setRolesInputError
+    setRolesInputError,
+    updateView
   } = useContext(ViewsContext);
 
-  const MODAL_TITLE_ID = 'create-view-title';
-  const ADMIN_PATH = '/admin';
-
-  const { pathname, search } = window.location;
+  const MODAL_TITLE_ID = 'update-view-title';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,30 +59,35 @@ const CreateViewModal = () => {
       return;
     }
 
-    const path = pathname.replace(ADMIN_PATH, '');
-    const params = search;
-    const slug = `${path}${params}`;
-
     try {
-      await addView({ name: viewName, slug, roles: viewRoles, visibility: viewVisibility });
+      await updateView(viewToUpdate.id, {
+        name: viewName,
+        visibility: viewVisibility,
+        roles: viewRoles
+      });
 
-      setShowCreateModal(false);
+      setShowUpdateModal(false);
     } catch (error) {
       console.log('error', error);
     }
   };
 
+  const closeModal = () => {
+    setShowUpdateModal(false);
+    setViewToUpdate(null);
+  };
+
   return (
     <ModalLayout
       labelledBy={MODAL_TITLE_ID}
-      onClose={() => setShowCreateModal(false)}
+      onClose={() => closeModal()}
       as="form"
       onSubmit={handleSubmit}
     >
       <ModalHeader>
         <Typography textColor="neutral800" as="h2" variant="beta" id={MODAL_TITLE_ID}>
           {formatMessage({
-            id: getTrad('CreateViewModal.ModalHeader.title')
+            id: getTrad('UpdateViewModal.ModalHeader.title')
           })}
         </Typography>
       </ModalHeader>
@@ -92,7 +96,7 @@ const CreateViewModal = () => {
       </ModalBody>
       <ModalFooter
         startActions={
-          <Button onClick={() => setShowCreateModal(false)} variant="tertiary">
+          <Button onClick={() => closeModal()} variant="tertiary">
             {formatMessage({
               id: getTrad('CreateViewModal.ModalFooter.cancel')
             })}
@@ -110,4 +114,4 @@ const CreateViewModal = () => {
   );
 };
 
-export default CreateViewModal;
+export default UpdateViewModal;

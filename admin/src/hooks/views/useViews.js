@@ -15,7 +15,9 @@ const useViews = () => {
   const [userRoles, setUserRoles] = useState([]);
 
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [viewToUpdate, setViewToUpdate] = useState(null);
   const [viewToDelete, setViewToDelete] = useState(null);
 
   const [viewsPopoverVisible, setViewsPopoverVisible] = useState(false);
@@ -69,6 +71,10 @@ const useViews = () => {
   }, [showCreateModal]);
 
   useEffect(() => {
+    fillUpdateFormFields();
+  }, [viewToUpdate]);
+
+  useEffect(() => {
     setFormErrors();
   }, [viewName, viewVisibility, viewRoles]);
 
@@ -76,6 +82,12 @@ const useViews = () => {
     const { data } = await get(CONST.REQUEST_URLS.GET_ROLES);
 
     setUserRoles(data);
+  };
+
+  const fillUpdateFormFields = () => {
+    setViewName(viewToUpdate?.name || '');
+    setViewVisibility(viewToUpdate?.visibility || CONST.VIEWS_VISIBILITY.PRIVATE);
+    setViewRoles(viewToUpdate?.roles || []);
   };
 
   const resetForm = () => {
@@ -90,7 +102,7 @@ const useViews = () => {
     if (viewName.length > 32) {
       setNameInputError(
         formatMessage({
-          id: getTrad('CreateViewForm.NameInput.hint')
+          id: getTrad('CreateUpdateViewForm.NameInput.hint')
         })
       );
     } else {
@@ -113,8 +125,12 @@ const useViews = () => {
     setUserRoles,
     showCreateModal,
     setShowCreateModal,
+    showUpdateModal,
+    setShowUpdateModal,
     showDeleteModal,
     setShowDeleteModal,
+    viewToUpdate,
+    setViewToUpdate,
     viewToDelete,
     setViewToDelete,
     viewsPopoverVisible,
