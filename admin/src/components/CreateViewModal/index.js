@@ -14,21 +14,20 @@ import {
 import CreateViewForm from '../CreateViewForm';
 
 import { ViewsContext } from '../../hooks/views/ViewsContext';
-import { ViewsWidgetContext } from '../../hooks/viewsWidget/ViewsWidgetContext';
 
 import CONST from '../../CONST';
 
 const CreateViewModal = () => {
   const { formatMessage } = useIntl();
-  const { addView } = useContext(ViewsContext);
   const {
+    addView,
     setShowCreateModal,
     viewName,
     viewRoles,
     viewVisibility,
     setNameInputError,
     setRolesInputError
-  } = useContext(ViewsWidgetContext);
+  } = useContext(ViewsContext);
 
   const MODAL_TITLE_ID = 'create-view-title';
   const ADMIN_PATH = '/admin';

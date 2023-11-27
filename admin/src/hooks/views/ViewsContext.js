@@ -8,28 +8,68 @@ const ViewsContext = createContext(null);
 const ViewsProvider = ({ children }) => {
   const {
     privateViews,
+    setPrivateViews,
     userViews,
+    setUserViews,
     sharedViews,
+    setSharedViews,
+    userRoles,
+    setUserRoles,
+    showCreateModal,
+    setShowCreateModal,
     showDeleteModal,
     setShowDeleteModal,
+    viewToDelete,
+    setViewToDelete,
+    viewsPopoverVisible,
+    setViewsPopoverVisible,
+    viewName,
+    setViewName,
+    viewRoles,
+    setViewRoles,
+    viewVisibility,
+    setViewVisibility,
+    nameInputError,
+    setNameInputError,
+    rolesInputError,
+    setRolesInputError,
     addView,
     deleteView,
-    viewToDelete,
-    setViewToDelete
+    updateView
   } = useViews();
 
   return (
     <ViewsContext.Provider
       value={{
         privateViews,
+        setPrivateViews,
         userViews,
+        setUserViews,
         sharedViews,
+        setSharedViews,
+        userRoles,
+        setUserRoles,
+        showCreateModal,
+        setShowCreateModal,
         showDeleteModal,
         setShowDeleteModal,
+        viewToDelete,
+        setViewToDelete,
+        viewsPopoverVisible,
+        setViewsPopoverVisible,
+        viewName,
+        setViewName,
+        viewRoles,
+        setViewRoles,
+        viewVisibility,
+        setViewVisibility,
+        nameInputError,
+        setNameInputError,
+        rolesInputError,
+        setRolesInputError,
         addView,
         deleteView,
-        viewToDelete,
-        setViewToDelete
+        updateView
       }}
     >
       {children}

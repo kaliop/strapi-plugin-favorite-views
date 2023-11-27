@@ -7,11 +7,11 @@ import getTrad from '../../utils/getTrad';
 import { Box, Popover, Typography } from '@strapi/design-system';
 import { Link } from '@strapi/design-system/v2';
 
-import { ViewsWidgetContext } from '../../hooks/viewsWidget/ViewsWidgetContext';
+import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 const ViewsListPopover = ({ views, viewsButtonRef }) => {
   const { formatMessage } = useIntl();
-  const { setViewsPopoverVisible } = useContext(ViewsWidgetContext);
+  const { setViewsPopoverVisible } = useContext(ViewsContext);
 
   return (
     <Popover

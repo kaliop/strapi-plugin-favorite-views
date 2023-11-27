@@ -15,7 +15,7 @@ import {
   Typography
 } from '@strapi/design-system';
 
-import { ViewsWidgetContext } from '../../hooks/viewsWidget/ViewsWidgetContext';
+import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 import CONST from '../../CONST';
 
@@ -31,7 +31,7 @@ const CreateViewForm = () => {
     setViewRoles,
     nameInputError,
     rolesInputError
-  } = useContext(ViewsWidgetContext);
+  } = useContext(ViewsContext);
 
   return (
     <Flex gap={6} direction="column" alignItems="stretch">

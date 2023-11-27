@@ -7,7 +7,6 @@ import PluginIcon from './components/PluginIcon';
 import ViewsWidget from './components/ViewsWidget';
 
 import { ViewsProvider } from './hooks/views/ViewsContext';
-import { ViewsWidgetProvider } from './hooks/viewsWidget/ViewsWidgetContext';
 
 const name = 'Favorite Views';
 
@@ -46,9 +45,7 @@ export default {
       name: 'favorite-views-widget',
       Component: () => (
         <ViewsProvider>
-          <ViewsWidgetProvider>
-            <ViewsWidget />
-          </ViewsWidgetProvider>
+          <ViewsWidget />
         </ViewsProvider>
       )
     });
