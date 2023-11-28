@@ -24,13 +24,15 @@ import {
 import Illo from '../../components/Illo';
 import ViewsTable from '../../components/ViewsTable';
 import DeleteViewModal from '../../components/DeleteViewModal';
+import UpdateViewModal from '../../components/UpdateViewModal';
 
 import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 const HomePage = () => {
   const { formatMessage } = useIntl();
 
-  const { privateViews, userViews, sharedViews, showDeleteModal } = useContext(ViewsContext);
+  const { privateViews, userViews, sharedViews, showUpdateModal, showDeleteModal } =
+    useContext(ViewsContext);
 
   return (
     <Layout>
@@ -74,7 +76,7 @@ const HomePage = () => {
             <TabPanel>
               {sharedViews.length ? (
                 <Box padding={8} background="neutral0">
-                  <ViewsTable views={sharedViews} />
+                  <ViewsTable views={sharedViews} showActions={false} />
                 </Box>
               ) : (
                 <EmptyStateLayout
@@ -89,6 +91,7 @@ const HomePage = () => {
         </TabGroup>
       </ContentLayout>
       {showDeleteModal && <DeleteViewModal />}
+      {showUpdateModal && <UpdateViewModal />}
     </Layout>
   );
 };

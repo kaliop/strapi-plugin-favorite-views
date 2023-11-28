@@ -8,14 +8,18 @@ import { List, Plus } from '@strapi/icons';
 import ViewsListPopover from '../ViewsListPopover';
 import CreateViewModal from '../CreateViewModal';
 
-import { ViewsWidgetContext } from '../../hooks/viewsWidget/ViewsWidgetContext';
 import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 const ViewsWidget = () => {
   const { formatMessage } = useIntl();
-  const { privateViews } = useContext(ViewsContext);
-  const { viewsPopoverVisible, setViewsPopoverVisible, showCreateModal, setShowCreateModal } =
-    useContext(ViewsWidgetContext);
+  const {
+    privateViews,
+    viewsPopoverVisible,
+    setViewsPopoverVisible,
+    showCreateModal,
+    setShowCreateModal
+  } = useContext(ViewsContext);
+
   const viewsButtonRef = useRef(null);
 
   return (

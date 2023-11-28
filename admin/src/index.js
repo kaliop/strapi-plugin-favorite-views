@@ -10,7 +10,6 @@ import ViewsWidget from './components/ViewsWidget';
 import getTrad from './utils/getTrad';
 
 import { ViewsProvider } from './hooks/views/ViewsContext';
-import { ViewsWidgetProvider } from './hooks/viewsWidget/ViewsWidgetContext';
 
 const name = pluginPkg.strapi.name;
 
@@ -49,9 +48,7 @@ export default {
       name: 'favorite-views-widget',
       Component: () => (
         <ViewsProvider>
-          <ViewsWidgetProvider>
-            <ViewsWidget />
-          </ViewsWidgetProvider>
+          <ViewsWidget />
         </ViewsProvider>
       )
     });
