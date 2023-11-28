@@ -76,13 +76,13 @@ const TableRow = ({ view, showActions }) => {
     useContext(ViewsContext);
 
   const deleteView = (view) => {
-    setShowDeleteModal(true);
     setViewToDelete(view);
+    setShowDeleteModal(true);
   };
 
   const updateView = (view) => {
-    setShowUpdateModal(true);
     setViewToUpdate(view);
+    setShowUpdateModal(true);
   };
 
   const formattedVisibility = () => {
@@ -92,15 +92,15 @@ const TableRow = ({ view, showActions }) => {
       });
     }
 
-    let rolesList = [];
+    let rolesVisibility = [];
 
     view.roles.map((role) => {
       const existingRole = userRoles.find((userRole) => userRole.code === role);
 
-      rolesList.push(` ${existingRole?.name}`);
+      rolesVisibility.push(` ${existingRole?.name}`);
     });
 
-    return rolesList.toString();
+    return rolesVisibility.toString();
   };
 
   return (

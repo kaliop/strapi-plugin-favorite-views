@@ -9,6 +9,8 @@
   "ViewsTable.TableHead.name": "Name",
   "ViewsTable.TableHead.visibility": "Shared with",
   "ViewsTable.TableHead.actions": "Actions",
+  "ViewsTable.TableRow.visibility.private": "Only me",
+  "ViewsTable.TableRow.visibility.public": "Everybody",
   "ViewsTable.TableRow.update": "Update view",
   "ViewsTable.TableRow.delete": "Delete view",
   "DeleteViewModal.ModalHeader.title": "Delete view",
