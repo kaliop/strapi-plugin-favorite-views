@@ -76,13 +76,31 @@ const TableRow = ({ view, showActions }) => {
     useContext(ViewsContext);
 
   const deleteView = (view) => {
-    setShowDeleteModal(true);
     setViewToDelete(view);
+    setShowDeleteModal(true);
   };
 
   const updateView = (view) => {
-    setShowUpdateModal(true);
     setViewToUpdate(view);
+    setShowUpdateModal(true);
+  };
+
+  const formattedVisibility = () => {
+    if (view.visibility !== CONST.VIEWS_VISIBILITY.ROLES) {
+      return formatMessage({
+        id: getTrad(`ViewsTable.TableRow.visibility.${view.visibility}`)
+      });
+    }
+
+    let rolesVisibility = [];
+
+    view.roles.map((role) => {
+      const existingRole = userRoles.find((userRole) => userRole.code === role);
+
+      rolesVisibility.push(` ${existingRole?.name}`);
+    });
+
+    return rolesVisibility.toString();
   };
 
   const formattedVisibility = () => {
