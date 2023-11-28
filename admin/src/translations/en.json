@@ -7,6 +7,7 @@
   "Homepage.SharedViews.EmptyStateLayout.content": "You don't have any shared view yet...",
   "ViewsTable.TableHead.id": "ID",
   "ViewsTable.TableHead.name": "Name",
+  "ViewsTable.TableHead.visibility": "Shared with",
   "ViewsTable.TableHead.actions": "Actions",
   "ViewsTable.TableRow.update": "Update view",
   "ViewsTable.TableRow.delete": "Delete view",
