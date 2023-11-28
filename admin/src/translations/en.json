@@ -30,7 +30,7 @@
   "CreateUpdateViewForm.RolesInput.label": "Roles",
   "CreateUpdateViewForm.RolesInput.placeholder": "Roles to share a view with",
   "CreateUpdateViewForm.RolesInput.emptyError": "You must select at least one role from the list",
-  "CreateUpdateViewForm.VisibilityInput.label": "Visible by",
+  "CreateUpdateViewForm.VisibilityInput.label": "Share with:",
   "CreateUpdateViewForm.VisibilityInput.private": "Only me",
   "CreateUpdateViewForm.VisibilityInput.public": "Everybody",
   "CreateUpdateViewForm.VisibilityInput.roles": "The following roles:"

@@ -74,32 +74,33 @@ const CreateUpdateViewForm = () => {
             </Flex>
           </Box>
         </GridItem>
-        <GridItem col={6}>
-          <MultiSelect
-            name="view-roles"
-            label={formatMessage({
-              id: getTrad('CreateUpdateViewForm.RolesInput.label')
-            })}
-            placeholder={formatMessage({
-              id: getTrad('CreateUpdateViewForm.RolesInput.placeholder')
-            })}
-            onClear={() => {
-              setViewRoles([]);
-            }}
-            value={viewRoles}
-            onChange={setViewRoles}
-            error={rolesInputError}
-            withTags
-            disabled={viewVisibility !== CONST.VIEWS_VISIBILITY.ROLES}
-            required={viewVisibility === CONST.VIEWS_VISIBILITY.ROLES}
-          >
-            {userRoles.map((role) => (
-              <MultiSelectOption key={role.id} value={role.code}>
-                {role.name}
-              </MultiSelectOption>
-            ))}
-          </MultiSelect>
-        </GridItem>
+        {viewVisibility === CONST.VIEWS_VISIBILITY.ROLES && (
+          <GridItem col={6}>
+            <MultiSelect
+              name="view-roles"
+              label={formatMessage({
+                id: getTrad('CreateUpdateViewForm.RolesInput.label')
+              })}
+              placeholder={formatMessage({
+                id: getTrad('CreateUpdateViewForm.RolesInput.placeholder')
+              })}
+              onClear={() => {
+                setViewRoles([]);
+              }}
+              value={viewRoles}
+              onChange={setViewRoles}
+              error={rolesInputError}
+              withTags
+              required
+            >
+              {userRoles.map((role) => (
+                <MultiSelectOption key={role.id} value={role.code}>
+                  {role.name}
+                </MultiSelectOption>
+              ))}
+            </MultiSelect>
+          </GridItem>
+        )}
       </Grid>
     </Flex>
   );
