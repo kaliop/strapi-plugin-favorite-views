@@ -45,11 +45,14 @@ module.exports = ({ strapi }) => ({
   },
   async create(name, slug, roles, visibility, userId) {
     if (userId) {
+      const ADMIN_URL = strapi.admin.config.url || '/admin';
+      const formattedSlug = slug.replace(ADMIN_URL, '');
+
       try {
         return await strapi.entityService.create('plugin::favorite-views.saved-view', {
           data: {
             name,
-            slug,
+            slug: formattedSlug,
             roles,
             visibility,
             createdBy: userId

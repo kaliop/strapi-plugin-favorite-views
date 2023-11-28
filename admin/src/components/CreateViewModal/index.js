@@ -30,9 +30,6 @@ const CreateViewModal = () => {
   } = useContext(ViewsContext);
 
   const MODAL_TITLE_ID = 'create-view-title';
-  const ADMIN_PATH = '/admin';
-
-  const { pathname, search } = window.location;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,9 +57,8 @@ const CreateViewModal = () => {
       return;
     }
 
-    const path = pathname.replace(ADMIN_PATH, '');
-    const params = search;
-    const slug = `${path}${params}`;
+    const { pathname, search } = window.location;
+    const slug = `${pathname}${search}`;
 
     try {
       await addView({ name: viewName, slug, roles: viewRoles, visibility: viewVisibility });
