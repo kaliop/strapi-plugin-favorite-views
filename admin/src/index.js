@@ -1,15 +1,18 @@
 import React from 'react';
 import { prefixPluginTranslations } from '@strapi/helper-plugin';
+import pluginPkg from '../../package.json';
 import pluginId from './pluginId';
 
 import Initializer from './components/Initializer';
 import PluginIcon from './components/PluginIcon';
 import ViewsWidget from './components/ViewsWidget';
 
+import getTrad from './utils/getTrad';
+
 import { ViewsProvider } from './hooks/views/ViewsContext';
 import { ViewsWidgetProvider } from './hooks/viewsWidget/ViewsWidgetContext';
 
-const name = 'Favorite Views';
+const name = pluginPkg.strapi.name;
 
 export default {
   register(app) {
@@ -17,7 +20,7 @@ export default {
       to: `/plugins/${pluginId}`,
       icon: PluginIcon,
       intlLabel: {
-        id: `${pluginId}.plugin.name`,
+        id: getTrad('Admin.MainMenu.PluginName'),
         defaultMessage: name
       },
       Component: async () => {

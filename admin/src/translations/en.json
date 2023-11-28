@@ -1,4 +1,5 @@
 {
+  "Admin.MainMenu.PluginName": "Favorite views",
   "Homepage.BaseHeaderLayout.title": "Favorite views",
   "Homepage.BaseHeaderLayout.subtitle": "You can find here all your favorite views",
   "Homepage.Tabs.MyViews": "My views",
