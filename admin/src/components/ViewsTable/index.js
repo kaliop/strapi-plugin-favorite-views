@@ -22,6 +22,8 @@ import { Pencil, Trash } from '@strapi/icons';
 
 import { ViewsContext } from '../../hooks/views/ViewsContext';
 
+import CONST from '../../CONST';
+
 const TableHead = ({ showActions }) => {
   const { formatMessage } = useIntl();
 
@@ -39,6 +41,13 @@ const TableHead = ({ showActions }) => {
           <Typography variant="sigma">
             {formatMessage({
               id: getTrad('ViewsTable.TableHead.name')
+            })}
+          </Typography>
+        </Th>
+        <Th>
+          <Typography variant="sigma">
+            {formatMessage({
+              id: getTrad('ViewsTable.TableHead.visibility')
             })}
           </Typography>
         </Th>
@@ -63,17 +72,35 @@ TableHead.propTypes = {
 const TableRow = ({ view, showActions }) => {
   const { formatMessage } = useIntl();
 
-  const { setShowUpdateModal, setViewToUpdate, setShowDeleteModal, setViewToDelete } =
+  const { userRoles, setShowUpdateModal, setViewToUpdate, setShowDeleteModal, setViewToDelete } =
     useContext(ViewsContext);
 
   const deleteView = (view) => {
-    setShowDeleteModal(true);
     setViewToDelete(view);
+    setShowDeleteModal(true);
   };
 
   const updateView = (view) => {
-    setShowUpdateModal(true);
     setViewToUpdate(view);
+    setShowUpdateModal(true);
+  };
+
+  const formattedVisibility = () => {
+    if (view.visibility !== CONST.VIEWS_VISIBILITY.ROLES) {
+      return formatMessage({
+        id: getTrad(`ViewsTable.TableRow.visibility.${view.visibility}`)
+      });
+    }
+
+    let rolesVisibility = [];
+
+    view.roles.map((role) => {
+      const existingRole = userRoles.find((userRole) => userRole.code === role);
+
+      rolesVisibility.push(` ${existingRole?.name}`);
+    });
+
+    return rolesVisibility.toString();
   };
 
   return (
@@ -87,6 +114,9 @@ const TableRow = ({ view, showActions }) => {
             {view.name}
           </Link>
         </Box>
+      </Td>
+      <Td>
+        <Typography color="neutral800">{formattedVisibility()}</Typography>
       </Td>
       {showActions && (
         <Td>
@@ -120,7 +150,7 @@ TableRow.propTypes = {
 };
 
 const ViewsTable = ({ views, showActions }) => {
-  const COL_COUNT = showActions ? 3 : 2;
+  const COL_COUNT = showActions ? 4 : 3;
   const ROW_COUNT = views.length;
 
   return (
