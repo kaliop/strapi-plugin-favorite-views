@@ -20,7 +20,7 @@
   "DeleteViewModal.ModalFooter.cancel": "Cancel",
   "DeleteViewModal.ModalFooter.confirm": "Confirm",
   "ViewsWidget.actions.create": "Create new view",
-  "ViewsWidget.actions.showList": "Views list",
+  "ViewsWidget.actions.showList": "My private views",
   "ViewsWidget.ViewsPopover.emptyList": "You don't have any private views saved yet...",
   "CreateViewModal.ModalHeader.title": "Add a new view",
   "CreateViewModal.ModalFooter.cancel": "Cancel",
