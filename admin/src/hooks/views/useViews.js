@@ -1,13 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useFetchClient } from '@strapi/helper-plugin';
 import { useIntl } from 'react-intl';
 import getTrad from '../../utils/getTrad';
+
+import { NotificationsContext } from '../notifications/NotificationsContext';
 
 import CONST from '../../CONST';
 
 const useViews = () => {
   const { get, post, del, put } = useFetchClient();
   const { formatMessage } = useIntl();
+
+  const { setNotification } = useContext(NotificationsContext);
 
   const [privateViews, setPrivateViews] = useState([]);
   const [userViews, setUserViews] = useState([]);
@@ -41,24 +45,68 @@ const useViews = () => {
   };
 
   const addView = async (viewData) => {
-    await post(CONST.REQUEST_URLS.CREATE_VIEW, viewData);
+    try {
+      await post(CONST.REQUEST_URLS.CREATE_VIEW, viewData);
 
-    getViews();
+      getViews();
+
+      setNotification({
+        message: formatMessage({
+          id: getTrad('Notifications.addView.success')
+        }),
+        type: CONST.NOTIFICATION_TYPES.SUCCESS
+      });
+    } catch (error) {
+      setNotification({
+        message: formatMessage({
+          id: getTrad('Notifications.addView.error')
+        }),
+        type: CONST.NOTIFICATION_TYPES.DANGER
+      });
+    }
   };
 
   const deleteView = async (id) => {
-    if (id) {
+    try {
       await del(`${CONST.REQUEST_URLS.DELETE_VIEW}${id}`);
 
       getViews();
+
+      setNotification({
+        message: formatMessage({
+          id: getTrad('Notifications.deleteView.success')
+        }),
+        type: CONST.NOTIFICATION_TYPES.SUCCESS
+      });
+    } catch (error) {
+      setNotification({
+        message: formatMessage({
+          id: getTrad('Notifications.deleteView.error')
+        }),
+        type: CONST.NOTIFICATION_TYPES.DANGER
+      });
     }
   };
 
   const updateView = async (id, viewData) => {
-    if (id) {
+    try {
       await put(`${CONST.REQUEST_URLS.UPDATE_VIEW}${id}`, viewData);
 
       getViews();
+
+      setNotification({
+        message: formatMessage({
+          id: getTrad('Notifications.updateView.success')
+        }),
+        type: CONST.NOTIFICATION_TYPES.SUCCESS
+      });
+    } catch (error) {
+      setNotification({
+        message: formatMessage({
+          id: getTrad('Notifications.updateView.error')
+        }),
+        type: CONST.NOTIFICATION_TYPES.DANGER
+      });
     }
   };
 
