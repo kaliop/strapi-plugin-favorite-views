@@ -25,7 +25,9 @@ import Illo from '../../components/Illo';
 import ViewsTable from '../../components/ViewsTable';
 import DeleteViewModal from '../../components/DeleteViewModal';
 import UpdateViewModal from '../../components/UpdateViewModal';
+import Notification from '../../components/Notification';
 
+import { NotificationsContext } from '../../hooks/notifications/NotificationsContext';
 import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 const HomePage = () => {
@@ -33,6 +35,7 @@ const HomePage = () => {
 
   const { privateViews, userViews, sharedViews, showUpdateModal, showDeleteModal } =
     useContext(ViewsContext);
+  const { notification } = useContext(NotificationsContext);
 
   return (
     <Layout>
@@ -92,6 +95,7 @@ const HomePage = () => {
       </ContentLayout>
       {showDeleteModal && <DeleteViewModal />}
       {showUpdateModal && <UpdateViewModal />}
+      {notification && <Notification notification={notification} />}
     </Layout>
   );
 };

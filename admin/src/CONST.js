@@ -11,5 +11,10 @@ export default {
     PRIVATE: 'private',
     PUBLIC: 'public',
     ROLES: 'roles'
+  },
+
+  NOTIFICATION_TYPES: {
+    DANGER: 'danger',
+    SUCCESS: 'success'
   }
 };

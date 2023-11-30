@@ -37,5 +37,12 @@
   "CreateUpdateViewForm.VisibilityInput.label": "Partager avec :",
   "CreateUpdateViewForm.VisibilityInput.private": "Moi uniquement",
   "CreateUpdateViewForm.VisibilityInput.public": "Tout le monde",
-  "CreateUpdateViewForm.VisibilityInput.roles": "Les rôles suivants :"
+  "CreateUpdateViewForm.VisibilityInput.roles": "Les rôles suivants :",
+  "Notifications.addView.success": "La vue a bien été créée",
+  "Notifications.addView.error": "Une erreur est survenue... Veuillez réessayer ultérieurement",
+  "Notifications.updateView.success": "La vue a bien été modifiée",
+  "Notifications.updateView.error": "Une erreur est survenue... Veuillez réessayer ultérieurement",
+  "Notifications.deleteView.success": "La vue a bien été supprimée",
+  "Notifications.deleteView.error": "Une erreur est survenue... Veuillez réessayer ultérieurement",
+  "Notifications.closeLabel": "Fermer"
 }
