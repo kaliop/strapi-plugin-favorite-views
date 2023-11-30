@@ -29,7 +29,7 @@ const Notification = ({ notification }) => {
   return (
     <Box
       position="fixed"
-      top="5%"
+      top="2.875rem"
       left="50%"
       width="500px"
       transform="translateX(-50%)"
