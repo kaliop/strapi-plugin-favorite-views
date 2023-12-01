@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { useIntl } from 'react-intl';
-import getTrad from '../../utils/getTrad';
 
 import {
   Box,
@@ -20,44 +18,29 @@ import {
 import { Link } from '@strapi/design-system/v2';
 import { Pencil, Trash } from '@strapi/icons';
 
+import useTranslate from '../../hooks/translations/useTranslate';
 import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 import CONST from '../../CONST';
 
 const TableHead = ({ showActions }) => {
-  const { formatMessage } = useIntl();
+  const { translate } = useTranslate();
 
   return (
     <Thead>
       <Tr>
         <Th>
-          <Typography variant="sigma">
-            {formatMessage({
-              id: getTrad('ViewsTable.TableHead.id')
-            })}
-          </Typography>
+          <Typography variant="sigma">{translate('ViewsTable.TableHead.id')}</Typography>
         </Th>
         <Th>
-          <Typography variant="sigma">
-            {formatMessage({
-              id: getTrad('ViewsTable.TableHead.name')
-            })}
-          </Typography>
+          <Typography variant="sigma">{translate('ViewsTable.TableHead.name')}</Typography>
         </Th>
         <Th>
-          <Typography variant="sigma">
-            {formatMessage({
-              id: getTrad('ViewsTable.TableHead.visibility')
-            })}
-          </Typography>
+          <Typography variant="sigma">{translate('ViewsTable.TableHead.visibility')}</Typography>
         </Th>
         {showActions && (
           <Th>
-            <VisuallyHidden>
-              {formatMessage({
-                id: getTrad('ViewsTable.TableHead.actions')
-              })}
-            </VisuallyHidden>
+            <VisuallyHidden>{translate('ViewsTable.TableHead.actions')}</VisuallyHidden>
           </Th>
         )}
       </Tr>
@@ -70,7 +53,7 @@ TableHead.propTypes = {
 };
 
 const TableRow = ({ view, showActions }) => {
-  const { formatMessage } = useIntl();
+  const { translate } = useTranslate();
 
   const { userRoles, setShowUpdateModal, setViewToUpdate, setShowDeleteModal, setViewToDelete } =
     useContext(ViewsContext);
@@ -87,9 +70,7 @@ const TableRow = ({ view, showActions }) => {
 
   const formattedVisibility = () => {
     if (view.visibility !== CONST.VIEWS_VISIBILITY.ROLES) {
-      return formatMessage({
-        id: getTrad(`ViewsTable.TableRow.visibility.${view.visibility}`)
-      });
+      return translate(`ViewsTable.TableRow.visibility.${view.visibility}`);
     }
 
     let rolesVisibility = [];
@@ -123,17 +104,13 @@ const TableRow = ({ view, showActions }) => {
           <Flex justifyContent="right" gap={1}>
             <IconButton
               onClick={() => updateView(view)}
-              label={formatMessage({
-                id: getTrad('ViewsTable.TableRow.update')
-              })}
+              label={translate('ViewsTable.TableRow.update')}
               noBorder
               icon={<Pencil />}
             />
             <IconButton
               onClick={() => deleteView(view)}
-              label={formatMessage({
-                id: getTrad('ViewsTable.TableRow.delete')
-              })}
+              label={translate('ViewsTable.TableRow.delete')}
               noBorder
               icon={<Trash />}
             />

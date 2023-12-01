@@ -1,16 +1,15 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { useIntl } from 'react-intl';
-import getTrad from '../../utils/getTrad';
 
 import { Box, Popover, Typography } from '@strapi/design-system';
 import { Link } from '@strapi/design-system/v2';
 
+import useTranslate from '../../hooks/translations/useTranslate';
 import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 const ViewsListPopover = ({ views, viewsButtonRef }) => {
-  const { formatMessage } = useIntl();
+  const { translate } = useTranslate();
   const { setViewsPopoverVisible } = useContext(ViewsContext);
 
   return (
@@ -32,9 +31,7 @@ const ViewsListPopover = ({ views, viewsButtonRef }) => {
         ) : (
           <Box as="li" padding={2}>
             <Typography variant="omega">
-              {formatMessage({
-                id: getTrad('ViewsWidget.ViewsPopover.emptyList')
-              })}
+              {translate('ViewsWidget.ViewsPopover.emptyList')}
             </Typography>
           </Box>
         )}

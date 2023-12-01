@@ -1,6 +1,4 @@
 import React, { useContext } from 'react';
-import { useIntl } from 'react-intl';
-import getTrad from '../../utils/getTrad';
 
 import {
   Button,
@@ -13,12 +11,13 @@ import {
 
 import CreateUpdateViewForm from '../CreateUpdateViewForm';
 
+import useTranslate from '../../hooks/translations/useTranslate';
 import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 import CONST from '../../CONST';
 
 const CreateViewModal = () => {
-  const { formatMessage } = useIntl();
+  const { translate } = useTranslate();
   const {
     addView,
     setShowCreateModal,
@@ -36,11 +35,7 @@ const CreateViewModal = () => {
     e.stopPropagation();
 
     if (!viewName) {
-      setNameInputError(
-        formatMessage({
-          id: getTrad('CreateUpdateViewForm.NameInput.emptyError')
-        })
-      );
+      setNameInputError(translate('CreateUpdateViewForm.NameInput.emptyError'));
 
       return;
     }
@@ -48,11 +43,7 @@ const CreateViewModal = () => {
     if (viewName.length > 32) return;
 
     if (viewVisibility === CONST.VIEWS_VISIBILITY.ROLES && !viewRoles.length) {
-      setRolesInputError(
-        formatMessage({
-          id: getTrad('CreateUpdateViewForm.RolesInput.emptyError')
-        })
-      );
+      setRolesInputError(translate('CreateUpdateViewForm.RolesInput.emptyError'));
 
       return;
     }
@@ -78,9 +69,7 @@ const CreateViewModal = () => {
     >
       <ModalHeader>
         <Typography textColor="neutral800" as="h2" variant="beta" id={MODAL_TITLE_ID}>
-          {formatMessage({
-            id: getTrad('CreateViewModal.ModalHeader.title')
-          })}
+          {translate('CreateViewModal.ModalHeader.title')}
         </Typography>
       </ModalHeader>
       <ModalBody>
@@ -89,16 +78,12 @@ const CreateViewModal = () => {
       <ModalFooter
         startActions={
           <Button onClick={() => setShowCreateModal(false)} variant="tertiary">
-            {formatMessage({
-              id: getTrad('CreateViewModal.ModalFooter.cancel')
-            })}
+            {translate('CreateViewModal.ModalFooter.cancel')}
           </Button>
         }
         endActions={
           <Button type="sumbit" variant="primary">
-            {formatMessage({
-              id: getTrad('CreateViewModal.ModalFooter.confirm')
-            })}
+            {translate('CreateViewModal.ModalFooter.confirm')}
           </Button>
         }
       />

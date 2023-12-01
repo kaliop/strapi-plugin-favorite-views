@@ -5,8 +5,6 @@
  */
 
 import React, { useContext } from 'react';
-import { useIntl } from 'react-intl';
-import getTrad from '../../utils/getTrad';
 
 import {
   BaseHeaderLayout,
@@ -27,11 +25,12 @@ import DeleteViewModal from '../../components/DeleteViewModal';
 import UpdateViewModal from '../../components/UpdateViewModal';
 import Notification from '../../components/Notification';
 
+import useTranslate from '../../hooks/translations/useTranslate';
 import { NotificationsContext } from '../../hooks/notifications/NotificationsContext';
 import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 const HomePage = () => {
-  const { formatMessage } = useIntl();
+  const { translate } = useTranslate();
 
   const { privateViews, userViews, sharedViews, showUpdateModal, showDeleteModal } =
     useContext(ViewsContext);
@@ -40,26 +39,14 @@ const HomePage = () => {
   return (
     <Layout>
       <BaseHeaderLayout
-        title={formatMessage({
-          id: getTrad('Homepage.BaseHeaderLayout.title')
-        })}
-        subtitle={formatMessage({
-          id: getTrad('Homepage.BaseHeaderLayout.subtitle')
-        })}
+        title={translate('Homepage.BaseHeaderLayout.title')}
+        subtitle={translate('Homepage.BaseHeaderLayout.subtitle')}
       />
       <ContentLayout>
         <TabGroup>
           <Tabs>
-            <Tab>
-              {formatMessage({
-                id: getTrad('Homepage.Tabs.MyViews')
-              })}
-            </Tab>
-            <Tab>
-              {formatMessage({
-                id: getTrad('Homepage.Tabs.SharedViews')
-              })}
-            </Tab>
+            <Tab>{translate('Homepage.Tabs.MyViews')}</Tab>
+            <Tab>{translate('Homepage.Tabs.SharedViews')}</Tab>
           </Tabs>
           <TabPanels>
             <TabPanel>
@@ -70,9 +57,7 @@ const HomePage = () => {
               ) : (
                 <EmptyStateLayout
                   icon={<Illo />}
-                  content={formatMessage({
-                    id: getTrad('Homepage.MyViews.EmptyStateLayout.content')
-                  })}
+                  content={translate('Homepage.MyViews.EmptyStateLayout.content')}
                 />
               )}
             </TabPanel>
@@ -84,9 +69,7 @@ const HomePage = () => {
               ) : (
                 <EmptyStateLayout
                   icon={<Illo />}
-                  content={formatMessage({
-                    id: getTrad('Homepage.SharedViews.EmptyStateLayout.content')
-                  })}
+                  content={translate('Homepage.SharedViews.EmptyStateLayout.content')}
                 />
               )}
             </TabPanel>

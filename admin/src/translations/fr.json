@@ -40,7 +40,7 @@
   "CreateUpdateViewForm.VisibilityInput.roles": "Les rôles suivants :",
   "Notifications.addView.success": "La vue a bien été créée",
   "Notifications.addView.error": "Une erreur est survenue... Veuillez réessayer ultérieurement",
-  "Notifications.updateView.success": "La vue a bien été modifiée",
+  "Notifications.updateView.success": "La vue a bien été mise à jour",
   "Notifications.updateView.error": "Une erreur est survenue... Veuillez réessayer ultérieurement",
   "Notifications.deleteView.success": "La vue a bien été supprimée",
   "Notifications.deleteView.error": "Une erreur est survenue... Veuillez réessayer ultérieurement",

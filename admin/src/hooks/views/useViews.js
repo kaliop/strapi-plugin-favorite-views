@@ -1,15 +1,14 @@
 import { useContext, useEffect, useState } from 'react';
 import { useFetchClient } from '@strapi/helper-plugin';
-import { useIntl } from 'react-intl';
-import getTrad from '../../utils/getTrad';
 
+import useTranslate from '../translations/useTranslate';
 import { NotificationsContext } from '../notifications/NotificationsContext';
 
 import CONST from '../../CONST';
 
 const useViews = () => {
   const { get, post, del, put } = useFetchClient();
-  const { formatMessage } = useIntl();
+  const { translate } = useTranslate();
 
   const { setNotification } = useContext(NotificationsContext);
 
@@ -51,16 +50,12 @@ const useViews = () => {
       getViews();
 
       setNotification({
-        message: formatMessage({
-          id: getTrad('Notifications.addView.success')
-        }),
+        message: translate('Notifications.addView.success'),
         type: CONST.NOTIFICATION_TYPES.SUCCESS
       });
     } catch (error) {
       setNotification({
-        message: formatMessage({
-          id: getTrad('Notifications.addView.error')
-        }),
+        message: translate('Notifications.addView.error'),
         type: CONST.NOTIFICATION_TYPES.DANGER
       });
     }
@@ -73,16 +68,12 @@ const useViews = () => {
       getViews();
 
       setNotification({
-        message: formatMessage({
-          id: getTrad('Notifications.deleteView.success')
-        }),
+        message: translate('Notifications.deleteView.success'),
         type: CONST.NOTIFICATION_TYPES.SUCCESS
       });
     } catch (error) {
       setNotification({
-        message: formatMessage({
-          id: getTrad('Notifications.deleteView.error')
-        }),
+        message: translate('Notifications.deleteView.error'),
         type: CONST.NOTIFICATION_TYPES.DANGER
       });
     }
@@ -95,16 +86,12 @@ const useViews = () => {
       getViews();
 
       setNotification({
-        message: formatMessage({
-          id: getTrad('Notifications.updateView.success')
-        }),
+        message: translate('Notifications.updateView.success'),
         type: CONST.NOTIFICATION_TYPES.SUCCESS
       });
     } catch (error) {
       setNotification({
-        message: formatMessage({
-          id: getTrad('Notifications.updateView.error')
-        }),
+        message: translate('Notifications.updateView.error'),
         type: CONST.NOTIFICATION_TYPES.DANGER
       });
     }
@@ -148,11 +135,7 @@ const useViews = () => {
 
   const setFormErrors = () => {
     if (viewName.length > 32) {
-      setNameInputError(
-        formatMessage({
-          id: getTrad('CreateUpdateViewForm.NameInput.hint')
-        })
-      );
+      setNameInputError(translate('CreateUpdateViewForm.NameInput.hint'));
     } else {
       setNameInputError('');
     }

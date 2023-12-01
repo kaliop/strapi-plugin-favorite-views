@@ -1,6 +1,4 @@
 import React, { useContext, useRef } from 'react';
-import { useIntl } from 'react-intl';
-import getTrad from '../../utils/getTrad';
 
 import { Button, Flex } from '@strapi/design-system';
 import { List, Plus } from '@strapi/icons';
@@ -9,11 +7,12 @@ import ViewsListPopover from '../ViewsListPopover';
 import CreateViewModal from '../CreateViewModal';
 import Notification from '../Notification';
 
+import useTranslate from '../../hooks/translations/useTranslate';
 import { NotificationsContext } from '../../hooks/notifications/NotificationsContext';
 import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 const ViewsWidget = () => {
-  const { formatMessage } = useIntl();
+  const { translate } = useTranslate();
   const {
     privateViews,
     viewsPopoverVisible,
@@ -29,9 +28,7 @@ const ViewsWidget = () => {
     <>
       <Flex gap={2} marginRight={1}>
         <Button variant="tertiary" startIcon={<Plus />} onClick={() => setShowCreateModal(true)}>
-          {formatMessage({
-            id: getTrad('ViewsWidget.actions.create')
-          })}
+          {translate('ViewsWidget.actions.create')}
         </Button>
         <Button
           ref={viewsButtonRef}
@@ -39,9 +36,7 @@ const ViewsWidget = () => {
           startIcon={<List />}
           onClick={() => setViewsPopoverVisible((s) => !s)}
         >
-          {formatMessage({
-            id: getTrad('ViewsWidget.actions.showList')
-          })}
+          {translate('ViewsWidget.actions.showList')}
         </Button>
       </Flex>
       {viewsPopoverVisible && (

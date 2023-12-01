@@ -1,14 +1,13 @@
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useIntl } from 'react-intl';
-import getTrad from '../../utils/getTrad';
 
 import { Alert, Box } from '@strapi/design-system';
 
+import useTranslate from '../../hooks/translations/useTranslate';
 import { NotificationsContext } from '../../hooks/notifications/NotificationsContext';
 
 const Notification = ({ notification }) => {
-  const { formatMessage } = useIntl();
+  const { translate } = useTranslate();
   const { setNotification } = useContext(NotificationsContext);
 
   let notificationTimeout;
@@ -37,9 +36,7 @@ const Notification = ({ notification }) => {
     >
       <Alert
         variant={notification.type}
-        closeLabel={formatMessage({
-          id: getTrad('Notifications.closeLabel')
-        })}
+        closeLabel={translate('Notifications.closeLabel')}
         onClose={closeNotification}
       >
         {notification.message}

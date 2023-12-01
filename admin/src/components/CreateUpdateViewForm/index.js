@@ -1,6 +1,4 @@
 import React, { useContext } from 'react';
-import { useIntl } from 'react-intl';
-import getTrad from '../../utils/getTrad';
 
 import {
   Box,
@@ -15,12 +13,13 @@ import {
   Typography
 } from '@strapi/design-system';
 
+import useTranslate from '../../hooks/translations/useTranslate';
 import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 import CONST from '../../CONST';
 
 const CreateUpdateViewForm = () => {
-  const { formatMessage } = useIntl();
+  const { translate } = useTranslate();
   const {
     userRoles,
     viewName,
@@ -37,12 +36,8 @@ const CreateUpdateViewForm = () => {
     <Flex gap={6} direction="column" alignItems="stretch">
       <TextInput
         name="view-name"
-        label={formatMessage({
-          id: getTrad('CreateUpdateViewForm.NameInput.label')
-        })}
-        hint={formatMessage({
-          id: getTrad('CreateUpdateViewForm.NameInput.hint')
-        })}
+        label={translate('CreateUpdateViewForm.NameInput.label')}
+        hint={translate('CreateUpdateViewForm.NameInput.hint')}
         error={nameInputError}
         onChange={(e) => setViewName(e.target.value)}
         value={viewName}
@@ -53,9 +48,7 @@ const CreateUpdateViewForm = () => {
           <Box as="fieldset">
             <Flex direction="column" gap={1} alignItems="stretch">
               <Typography as="legend" variant="pi" textColor="neutral800" fontWeight="bold">
-                {formatMessage({
-                  id: getTrad(`CreateUpdateViewForm.VisibilityInput.label`)
-                })}
+                {translate('CreateUpdateViewForm.VisibilityInput.label')}
               </Typography>
               <RadioGroup
                 name="view-visibility"
@@ -65,9 +58,7 @@ const CreateUpdateViewForm = () => {
               >
                 {Object.entries(CONST.VIEWS_VISIBILITY).map(([key, value]) => (
                   <Radio key={`visibility-${key}`} value={value}>
-                    {formatMessage({
-                      id: getTrad(`CreateUpdateViewForm.VisibilityInput.${value}`)
-                    })}
+                    {translate(`CreateUpdateViewForm.VisibilityInput.${value}`)}
                   </Radio>
                 ))}
               </RadioGroup>
@@ -78,12 +69,8 @@ const CreateUpdateViewForm = () => {
           <GridItem col={6}>
             <MultiSelect
               name="view-roles"
-              label={formatMessage({
-                id: getTrad('CreateUpdateViewForm.RolesInput.label')
-              })}
-              placeholder={formatMessage({
-                id: getTrad('CreateUpdateViewForm.RolesInput.placeholder')
-              })}
+              label={translate('CreateUpdateViewForm.RolesInput.label')}
+              placeholder={translate('CreateUpdateViewForm.RolesInput.placeholder')}
               onClear={() => {
                 setViewRoles([]);
               }}

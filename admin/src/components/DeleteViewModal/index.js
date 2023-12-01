@@ -1,6 +1,4 @@
 import React, { useContext } from 'react';
-import { useIntl } from 'react-intl';
-import getTrad from '../../utils/getTrad';
 
 import {
   Box,
@@ -14,10 +12,11 @@ import {
 } from '@strapi/design-system';
 import { Trash } from '@strapi/icons';
 
+import useTranslate from '../../hooks/translations/useTranslate';
 import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 const DeleteViewModal = () => {
-  const { formatMessage } = useIntl();
+  const { translate } = useTranslate();
   const { setShowDeleteModal, viewToDelete, deleteView } = useContext(ViewsContext);
 
   const MODAL_TITLE_ID = 'delete-view-title';
@@ -40,42 +39,28 @@ const DeleteViewModal = () => {
     >
       <ModalHeader>
         <Typography textColor="neutral800" as="h2" variant="beta" id={MODAL_TITLE_ID}>
-          {formatMessage({
-            id: getTrad('DeleteViewModal.ModalHeader.title')
-          })}
+          {translate('DeleteViewModal.ModalHeader.title')}
         </Typography>
       </ModalHeader>
       <ModalBody>
         <Flex direction="column">
-          <Typography as="p">
-            {formatMessage({
-              id: getTrad('DeleteViewModal.ModalBody.message1')
-            })}
-          </Typography>
+          <Typography as="p">{translate('DeleteViewModal.ModalBody.message1')}</Typography>
           <Box marginTop={2} marginBottom={2}>
             <Typography padding={2} as="p" textAlign="center" variant="delta">
               {viewToDelete?.name}
             </Typography>
           </Box>
-          <Typography as="p">
-            {formatMessage({
-              id: getTrad('DeleteViewModal.ModalBody.message2')
-            })}
-          </Typography>
+          <Typography as="p">{translate('DeleteViewModal.ModalBody.message2')}</Typography>
         </Flex>
       </ModalBody>
       <ModalFooter
         endActions={
           <>
             <Button onClick={() => setShowDeleteModal(false)} variant="tertiary">
-              {formatMessage({
-                id: getTrad('DeleteViewModal.ModalFooter.cancel')
-              })}
+              {translate('DeleteViewModal.ModalFooter.cancel')}
             </Button>
             <Button type="submit" variant="danger-light" startIcon={<Trash />}>
-              {formatMessage({
-                id: getTrad('DeleteViewModal.ModalFooter.confirm')
-              })}
+              {translate('DeleteViewModal.ModalFooter.confirm')}
             </Button>
           </>
         }
