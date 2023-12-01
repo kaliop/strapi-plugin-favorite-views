@@ -5,10 +5,8 @@ import { List, Plus } from '@strapi/icons';
 
 import ViewsListPopover from '../ViewsListPopover';
 import CreateViewModal from '../CreateViewModal';
-import Notification from '../Notification';
 
 import useTranslate from '../../hooks/translations/useTranslate';
-import { NotificationsContext } from '../../hooks/notifications/NotificationsContext';
 import { ViewsContext } from '../../hooks/views/ViewsContext';
 
 const ViewsWidget = () => {
@@ -20,7 +18,6 @@ const ViewsWidget = () => {
     showCreateModal,
     setShowCreateModal
   } = useContext(ViewsContext);
-  const { notification } = useContext(NotificationsContext);
 
   const viewsButtonRef = useRef(null);
 
@@ -43,7 +40,6 @@ const ViewsWidget = () => {
         <ViewsListPopover viewsButtonRef={viewsButtonRef} views={privateViews} />
       )}
       {showCreateModal && <CreateViewModal />}
-      {notification && <Notification notification={notification} />}
     </>
   );
 };

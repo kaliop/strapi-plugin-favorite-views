@@ -1,16 +1,14 @@
-import { useContext, useEffect, useState } from 'react';
-import { useFetchClient } from '@strapi/helper-plugin';
+import { useEffect, useState } from 'react';
+import { useFetchClient, useNotification } from '@strapi/helper-plugin';
 
 import useTranslate from '../translations/useTranslate';
-import { NotificationsContext } from '../notifications/NotificationsContext';
 
 import CONST from '../../CONST';
 
 const useViews = () => {
   const { get, post, del, put } = useFetchClient();
   const { translate } = useTranslate();
-
-  const { setNotification } = useContext(NotificationsContext);
+  const toggleNotification = useNotification();
 
   const [privateViews, setPrivateViews] = useState([]);
   const [userViews, setUserViews] = useState([]);
@@ -49,14 +47,14 @@ const useViews = () => {
 
       getViews();
 
-      setNotification({
-        message: translate('Notifications.addView.success'),
-        type: CONST.NOTIFICATION_TYPES.SUCCESS
+      toggleNotification({
+        type: CONST.NOTIFICATION_TYPES.SUCCESS,
+        message: translate('Notifications.addView.success')
       });
     } catch (error) {
-      setNotification({
-        message: translate('Notifications.addView.error'),
-        type: CONST.NOTIFICATION_TYPES.DANGER
+      toggleNotification({
+        type: CONST.NOTIFICATION_TYPES.DANGER,
+        message: translate('Notifications.addView.error')
       });
     }
   };
@@ -67,14 +65,14 @@ const useViews = () => {
 
       getViews();
 
-      setNotification({
-        message: translate('Notifications.deleteView.success'),
-        type: CONST.NOTIFICATION_TYPES.SUCCESS
+      toggleNotification({
+        type: CONST.NOTIFICATION_TYPES.SUCCESS,
+        message: translate('Notifications.deleteView.success')
       });
     } catch (error) {
-      setNotification({
-        message: translate('Notifications.deleteView.error'),
-        type: CONST.NOTIFICATION_TYPES.DANGER
+      toggleNotification({
+        type: CONST.NOTIFICATION_TYPES.DANGER,
+        message: translate('Notifications.deleteView.error')
       });
     }
   };
@@ -85,14 +83,14 @@ const useViews = () => {
 
       getViews();
 
-      setNotification({
-        message: translate('Notifications.updateView.success'),
-        type: CONST.NOTIFICATION_TYPES.SUCCESS
+      toggleNotification({
+        type: CONST.NOTIFICATION_TYPES.SUCCESS,
+        message: translate('Notifications.updateView.success')
       });
     } catch (error) {
-      setNotification({
-        message: translate('Notifications.updateView.error'),
-        type: CONST.NOTIFICATION_TYPES.DANGER
+      toggleNotification({
+        type: CONST.NOTIFICATION_TYPES.DANGER,
+        message: translate('Notifications.updateView.error')
       });
     }
   };

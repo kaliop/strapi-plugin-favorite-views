@@ -9,7 +9,6 @@ import ViewsWidget from './components/ViewsWidget';
 
 import getTrad from './utils/getTrad';
 
-import { NotificationsProvider } from './hooks/notifications/NotificationsContext';
 import { ViewsProvider } from './hooks/views/ViewsContext';
 
 const name = pluginPkg.strapi.name;
@@ -48,11 +47,9 @@ export default {
     app.injectContentManagerComponent('listView', 'actions', {
       name: 'favorite-views-widget',
       Component: () => (
-        <NotificationsProvider>
-          <ViewsProvider>
-            <ViewsWidget />
-          </ViewsProvider>
-        </NotificationsProvider>
+        <ViewsProvider>
+          <ViewsWidget />
+        </ViewsProvider>
       )
     });
   },

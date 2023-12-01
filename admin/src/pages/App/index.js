@@ -11,19 +11,16 @@ import { AnErrorOccurred } from '@strapi/helper-plugin';
 import pluginId from '../../pluginId';
 import HomePage from '../HomePage';
 import { ViewsProvider } from '../../hooks/views/ViewsContext';
-import { NotificationsProvider } from '../../hooks/notifications/NotificationsContext';
 
 const App = () => {
   return (
     <div>
-      <NotificationsProvider>
-        <ViewsProvider>
-          <Switch>
-            <Route path={`/plugins/${pluginId}`} component={HomePage} exact />
-            <Route component={AnErrorOccurred} />
-          </Switch>
-        </ViewsProvider>
-      </NotificationsProvider>
+      <ViewsProvider>
+        <Switch>
+          <Route path={`/plugins/${pluginId}`} component={HomePage} exact />
+          <Route component={AnErrorOccurred} />
+        </Switch>
+      </ViewsProvider>
     </div>
   );
 };
