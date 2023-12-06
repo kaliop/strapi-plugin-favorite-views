@@ -30,8 +30,7 @@ import { ViewsContext } from '../../hooks/views/ViewsContext';
 const HomePage = () => {
   const { translate } = useTranslate();
 
-  const { privateViews, userViews, sharedViews, showUpdateModal, showDeleteModal } =
-    useContext(ViewsContext);
+  const { privateViews, userViews, sharedViews, showUpdateModal } = useContext(ViewsContext);
 
   return (
     <Layout>
@@ -73,7 +72,7 @@ const HomePage = () => {
           </TabPanels>
         </TabGroup>
       </ContentLayout>
-      {showDeleteModal && <DeleteViewModal />}
+      <DeleteViewModal />
       {showUpdateModal && <UpdateViewModal />}
     </Layout>
   );
