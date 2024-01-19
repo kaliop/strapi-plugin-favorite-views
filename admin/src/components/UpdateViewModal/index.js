@@ -13,8 +13,7 @@ import CreateUpdateViewForm from '../CreateUpdateViewForm';
 
 import useTranslate from '../../hooks/translations/useTranslate';
 import { ViewsContext } from '../../hooks/views/ViewsContext';
-
-import CONST from '../../CONST';
+import { updateViewSchema } from './schema';
 
 const UpdateViewModal = () => {
   const { translate } = useTranslate();
@@ -36,16 +35,20 @@ const UpdateViewModal = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!viewName) {
-      setNameInputError(translate('CreateUpdateViewForm.NameInput.emptyError'));
+    const isFormValid = updateViewSchema.safeParse({
+      name: viewName,
+      visibility: viewVisibility,
+      roles: viewRoles
+    });
 
-      return;
-    }
-
-    if (viewName.length > 32) return;
-
-    if (viewVisibility === CONST.VIEWS_VISIBILITY.ROLES && !viewRoles.length) {
-      setRolesInputError(translate('CreateUpdateViewForm.RolesInput.emptyError'));
+    if (!isFormValid.success) {
+      isFormValid.error.errors.forEach((error) => {
+        if (error.path.includes('name')) {
+          setNameInputError(translate('CreateUpdateViewForm.NameInput.emptyError'));
+        } else if (error.path.includes('roles')) {
+          setRolesInputError(translate('CreateUpdateViewForm.RolesInput.emptyError'));
+        }
+      });
 
       return;
     }
