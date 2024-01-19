@@ -14,19 +14,10 @@ import CreateUpdateViewForm from '../CreateUpdateViewForm';
 import useTranslate from '../../hooks/translations/useTranslate';
 import { ViewsContext } from '../../hooks/views/ViewsContext';
 
-import CONST from '../../CONST';
-
 const CreateViewModal = () => {
   const { translate } = useTranslate();
-  const {
-    addView,
-    setShowCreateModal,
-    viewName,
-    viewRoles,
-    viewVisibility,
-    setNameInputError,
-    setRolesInputError
-  } = useContext(ViewsContext);
+  const { addView, setShowCreateModal, viewName, viewRoles, viewVisibility, validateForm } =
+    useContext(ViewsContext);
 
   const MODAL_TITLE_ID = 'create-view-title';
 
@@ -34,17 +25,9 @@ const CreateViewModal = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!viewName) {
-      setNameInputError(translate('CreateUpdateViewForm.NameInput.emptyError'));
+    const isFormValid = validateForm();
 
-      return;
-    }
-
-    if (viewName.length > 32) return;
-
-    if (viewVisibility === CONST.VIEWS_VISIBILITY.ROLES && !viewRoles.length) {
-      setRolesInputError(translate('CreateUpdateViewForm.RolesInput.emptyError'));
-
+    if (!isFormValid) {
       return;
     }
 

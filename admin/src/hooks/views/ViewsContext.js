@@ -39,7 +39,8 @@ const ViewsProvider = ({ children }) => {
     setRolesInputError,
     addView,
     deleteView,
-    updateView
+    updateView,
+    validateForm
   } = useViews();
 
   return (
@@ -77,7 +78,8 @@ const ViewsProvider = ({ children }) => {
         setRolesInputError,
         addView,
         deleteView,
-        updateView
+        updateView,
+        validateForm
       }}
     >
       {children}
