@@ -4,6 +4,7 @@ import { useFetchClient, useNotification } from '@strapi/helper-plugin';
 import useTranslate from '../translations/useTranslate';
 
 import CONST from '../../CONST';
+import { formSchema } from './schema';
 
 const useViews = () => {
   const { get, post, del, put } = useFetchClient();
@@ -143,6 +144,26 @@ const useViews = () => {
     }
   };
 
+  const validateForm = () => {
+    const isFormValid = formSchema.safeParse({
+      name: viewName,
+      visibility: viewVisibility,
+      roles: viewRoles
+    });
+
+    if (!isFormValid.success) {
+      isFormValid.error.errors.forEach((error) => {
+        if (error.path.includes('name')) {
+          setNameInputError(translate('CreateUpdateViewForm.NameInput.emptyError'));
+        } else if (error.path.includes('roles')) {
+          setRolesInputError(translate('CreateUpdateViewForm.RolesInput.emptyError'));
+        }
+      });
+
+      return;
+    }
+  };
+
   return {
     privateViews,
     setPrivateViews,
@@ -176,7 +197,8 @@ const useViews = () => {
     setRolesInputError,
     addView,
     deleteView,
-    updateView
+    updateView,
+    validateForm
   };
 };
 
