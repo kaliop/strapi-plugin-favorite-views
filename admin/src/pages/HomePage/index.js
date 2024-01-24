@@ -30,7 +30,7 @@ import { ViewsContext } from '../../hooks/views/ViewsContext';
 const HomePage = () => {
   const { translate } = useTranslate();
 
-  const { privateViews, userViews, sharedViews, showUpdateModal } = useContext(ViewsContext);
+  const { userViews, sharedViews, showUpdateModal } = useContext(ViewsContext);
 
   return (
     <Layout>
@@ -46,9 +46,9 @@ const HomePage = () => {
           </Tabs>
           <TabPanels>
             <TabPanel>
-              {userViews.length || privateViews.length ? (
+              {userViews.length ? (
                 <Box padding={8} background="neutral0">
-                  <ViewsTable views={[...privateViews, ...userViews]} showActions={true} />
+                  <ViewsTable views={userViews} showActions={true} />
                 </Box>
               ) : (
                 <EmptyStateLayout

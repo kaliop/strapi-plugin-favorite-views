@@ -1,6 +1,8 @@
 export default {
   REQUEST_URLS: {
-    GET_VIEWS: '/favorite-views/find',
+    GET_USER_VIEWS: '/favorite-views/findUserViews',
+    GET_SHARED_VIEWS: '/favorite-views/findSharedViews',
+    GET_PRIVATE_VIEWS: '/favorite-views/findPrivateViews',
     CREATE_VIEW: '/favorite-views/create',
     DELETE_VIEW: '/favorite-views/delete/',
     UPDATE_VIEW: '/favorite-views/update/',
@@ -18,3 +20,22 @@ export default {
     SUCCESS: 'success'
   }
 };
+
+export const ITEMS_PER_PAGE = [
+  {
+    label: '10',
+    value: 10
+  },
+  {
+    label: '20',
+    value: 20
+  },
+  {
+    label: '50',
+    value: 50
+  },
+  {
+    label: '100',
+    value: 100
+  }
+];

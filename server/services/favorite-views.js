@@ -1,46 +1,118 @@
 'use strict';
 
 module.exports = ({ strapi }) => ({
-  async find(user) {
+  async findUserViews(params, user) {
+    const { page = 1, pageSize = 10 } = params;
+    const startIndex = (page - 1) * pageSize;
+
     try {
-      let privateViews = [];
+      let userViewsData = [];
+      let userViewsCount;
       if (user) {
-        privateViews = await strapi.entityService.findMany('plugin::favorite-views.saved-view', {
+        userViewsData = await strapi.entityService.findMany('plugin::favorite-views.saved-view', {
+          start: startIndex,
+          limit: pageSize,
+          filters: { createdBy: { id: user.id } },
+          populate: ['createdBy']
+        });
+
+        userViewsCount = await strapi.entityService.count('plugin::favorite-views.saved-view', {
           filters: {
             $and: [{ createdBy: { id: user.id } }, { visibility: 'private' }]
-          },
-          populate: ['createdBy']
+          }
         });
       }
 
-      let userViews = [];
-      if (user) {
-        userViews = await strapi.entityService.findMany('plugin::favorite-views.saved-view', {
-          filters: {
-            $and: [{ createdBy: { id: user.id } }, { visibility: { $in: ['public', 'roles'] } }]
-          },
-          populate: ['createdBy']
-        });
-      }
+      return {
+        userViewsData,
+        userViewsCount
+      };
+    } catch (error) {
+      throw new Error(`Find favorite user views error : ${error}`);
+    }
+  },
+  async findSharedViews(params, user) {
+    const { page = 1, pageSize = 10 } = params;
+    const startIndex = (page - 1) * pageSize;
 
-      let sharedViews = [];
+    try {
+      let sharedViewsData = [];
+      let sharedViewsCount;
       if (user.roles.length) {
         const userRoles = user.roles.map((role) => role.code);
-        const allViews = await strapi.entityService.findMany('plugin::favorite-views.saved-view', {
+        sharedViewsData = await strapi.entityService.findMany('plugin::favorite-views.saved-view', {
+          start: startIndex,
+          limit: pageSize,
+          filters: {
+            $and: [
+              { createdBy: { id: { $ne: user.id } } },
+              {
+                $or: [
+                  {
+                    $and: [
+                      { visibility: 'roles' },
+                      { $or: userRoles.map((role) => ({ roles: { $contains: role } })) }
+                    ]
+                  },
+                  { visibility: 'public' }
+                ]
+              }
+            ]
+          },
           populate: ['createdBy']
         });
-        const allSharedViews = allViews.filter((view) => view.createdBy.id !== user.id);
-        sharedViews = allSharedViews.filter((view) => {
-          if (view.roles.length && view.visibility === 'roles') {
-            return view.roles?.some((role) => userRoles.includes(role));
+
+        sharedViewsCount = await strapi.entityService.findMany(
+          'plugin::favorite-views.saved-view',
+          {
+            filters: {
+              $and: [
+                { createdBy: { id: { $ne: user.id } } },
+                {
+                  $or: [
+                    {
+                      $and: [
+                        { visibility: 'roles' },
+                        { $or: userRoles.map((role) => ({ roles: { $contains: role } })) }
+                      ]
+                    },
+                    { visibility: 'public' }
+                  ]
+                }
+              ]
+            }
           }
-          return view.visibility === 'public';
-        });
+        );
       }
 
-      return { privateViews, userViews, sharedViews };
+      return {
+        sharedViewsData,
+        sharedViewsCount
+      };
     } catch (error) {
-      throw new Error(`Find favorite views error : ${error}`);
+      throw new Error(`Find favorite shared views error : ${error}`);
+    }
+  },
+  async findPrivateViews(user) {
+    try {
+      let privateViewsData = [];
+      if (user) {
+        privateViewsData = await strapi.entityService.findMany(
+          'plugin::favorite-views.saved-view',
+          {
+            filters: {
+              $and: [{ createdBy: { id: user.id } }, { visibility: 'private' }]
+            },
+            populate: ['createdBy']
+          }
+        );
+      }
+
+      return {
+        privateViewsData
+      };
+    } catch (error) {
+      throw new Error(`Find favorite private views error : ${error}`);
     }
   },
   async create(name, slug, roles, visibility, userId) {
