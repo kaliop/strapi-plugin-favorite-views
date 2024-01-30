@@ -1,31 +1,28 @@
 'use strict';
 
 module.exports = ({ strapi }) => ({
-  async findUserViews(ctx) {
+  async getUserViews(ctx) {
     const user = ctx.state.user;
     const { page = 1, pageSize = 10 } = ctx.query;
 
     ctx.body = await strapi
       .plugin('favorite-views')
       .service('favoriteViews')
-      .findUserViews({ page, pageSize }, user);
+      .getUserViews({ page, pageSize }, user);
   },
-  async findSharedViews(ctx) {
+  async getSharedViews(ctx) {
     const user = ctx.state.user;
     const { page = 1, pageSize = 10 } = ctx.query;
 
     ctx.body = await strapi
       .plugin('favorite-views')
       .service('favoriteViews')
-      .findSharedViews({ page, pageSize }, user);
+      .getSharedViews({ page, pageSize }, user);
   },
-  async findPrivateViews(ctx) {
+  async getPrivateViews(ctx) {
     const user = ctx.state.user;
 
-    ctx.body = await strapi
-      .plugin('favorite-views')
-      .service('favoriteViews')
-      .findPrivateViews(user);
+    ctx.body = await strapi.plugin('favorite-views').service('favoriteViews').getPrivateViews(user);
   },
   async create(ctx) {
     const userId = ctx.state.user.id;

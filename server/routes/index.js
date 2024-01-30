@@ -1,24 +1,24 @@
 module.exports = [
   {
     method: 'GET',
-    path: '/findUserViews',
-    handler: 'favoriteViews.findUserViews',
+    path: '/getUserViews',
+    handler: 'favoriteViews.getUserViews',
     config: {
       policies: []
     }
   },
   {
     method: 'GET',
-    path: '/findSharedViews',
-    handler: 'favoriteViews.findSharedViews',
+    path: '/getSharedViews',
+    handler: 'favoriteViews.getSharedViews',
     config: {
       policies: []
     }
   },
   {
     method: 'GET',
-    path: '/findPrivateViews',
-    handler: 'favoriteViews.findPrivateViews',
+    path: '/getPrivateViews',
+    handler: 'favoriteViews.getPrivateViews',
     config: {
       policies: []
     }

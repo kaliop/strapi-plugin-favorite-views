@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = ({ strapi }) => ({
-  async findUserViews(params, user) {
+  async getUserViews(params, user) {
     const { page = 1, pageSize = 10 } = params;
     const startIndex = (page - 1) * pageSize;
 
@@ -31,7 +31,7 @@ module.exports = ({ strapi }) => ({
       throw new Error(`Find favorite user views error : ${error}`);
     }
   },
-  async findSharedViews(params, user) {
+  async getSharedViews(params, user) {
     const { page = 1, pageSize = 10 } = params;
     const startIndex = (page - 1) * pageSize;
 
@@ -93,7 +93,7 @@ module.exports = ({ strapi }) => ({
       throw new Error(`Find favorite shared views error : ${error}`);
     }
   },
-  async findPrivateViews(user) {
+  async getPrivateViews(user) {
     try {
       let privateViewsData = [];
       if (user) {
