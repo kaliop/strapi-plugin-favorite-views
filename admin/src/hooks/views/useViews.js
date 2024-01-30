@@ -11,9 +11,9 @@ const useViews = () => {
   const { translate } = useTranslate();
   const toggleNotification = useNotification();
 
-  const [privateViews, setPrivateViews] = useState([]);
   const [userViews, setUserViews] = useState([]);
   const [sharedViews, setSharedViews] = useState([]);
+  const [privateViews, setPrivateViews] = useState([]);
   const [userRoles, setUserRoles] = useState([]);
 
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -31,22 +31,35 @@ const useViews = () => {
   const [rolesInputError, setRolesInputError] = useState('');
 
   useEffect(() => {
-    getViews();
+    getUserViews();
+    getSharedViews();
+    getPrivateViews();
   }, []);
 
-  const getViews = async () => {
-    const { data } = await get(CONST.REQUEST_URLS.GET_VIEWS);
+  const getUserViews = async () => {
+    const { data } = await get(CONST.REQUEST_URLS.GET_USER_VIEWS);
 
-    setPrivateViews(data.privateViews);
-    setUserViews(data.userViews);
-    setSharedViews(data.sharedViews);
+    setUserViews(data.userViewsData);
+  };
+
+  const getSharedViews = async () => {
+    const { data } = await get(CONST.REQUEST_URLS.GET_SHARED_VIEWS);
+
+    setSharedViews(data.sharedViewsData);
+  };
+
+  const getPrivateViews = async () => {
+    const { data } = await get(CONST.REQUEST_URLS.GET_PRIVATE_VIEWS);
+
+    setPrivateViews(data.privateViewsData);
   };
 
   const addView = async (viewData) => {
     try {
       await post(CONST.REQUEST_URLS.CREATE_VIEW, viewData);
 
-      getViews();
+      getUserViews();
+      getSharedViews();
 
       toggleNotification({
         type: CONST.NOTIFICATION_TYPES.SUCCESS,
@@ -64,7 +77,8 @@ const useViews = () => {
     try {
       await del(`${CONST.REQUEST_URLS.DELETE_VIEW}${id}`);
 
-      getViews();
+      getUserViews();
+      getSharedViews();
 
       toggleNotification({
         type: CONST.NOTIFICATION_TYPES.SUCCESS,
@@ -82,7 +96,8 @@ const useViews = () => {
     try {
       await put(`${CONST.REQUEST_URLS.UPDATE_VIEW}${id}`, viewData);
 
-      getViews();
+      getUserViews();
+      getSharedViews();
 
       toggleNotification({
         type: CONST.NOTIFICATION_TYPES.SUCCESS,

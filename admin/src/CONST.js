@@ -1,6 +1,8 @@
 export default {
   REQUEST_URLS: {
-    GET_VIEWS: '/favorite-views/find',
+    GET_USER_VIEWS: '/favorite-views/getUserViews',
+    GET_SHARED_VIEWS: '/favorite-views/getSharedViews',
+    GET_PRIVATE_VIEWS: '/favorite-views/getPrivateViews',
     CREATE_VIEW: '/favorite-views/create',
     DELETE_VIEW: '/favorite-views/delete/',
     UPDATE_VIEW: '/favorite-views/update/',
