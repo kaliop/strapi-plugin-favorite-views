@@ -25,7 +25,12 @@ module.exports = ({ strapi }) => ({
 
       return {
         userViewsData,
-        userViewsCount
+        pagination: {
+          currentPage: page,
+          pageSize,
+          totalPages: Math.ceil(userViewsCount / pageSize),
+          count: userViewsCount
+        }
       };
     } catch (error) {
       throw new Error(`Find favorite user views error : ${error}`);
@@ -62,32 +67,34 @@ module.exports = ({ strapi }) => ({
           populate: ['createdBy']
         });
 
-        sharedViewsCount = await strapi.entityService.findMany(
-          'plugin::favorite-views.saved-view',
-          {
-            filters: {
-              $and: [
-                { createdBy: { id: { $ne: user.id } } },
-                {
-                  $or: [
-                    {
-                      $and: [
-                        { visibility: 'roles' },
-                        { $or: userRoles.map((role) => ({ roles: { $contains: role } })) }
-                      ]
-                    },
-                    { visibility: 'public' }
-                  ]
-                }
-              ]
-            }
+        sharedViewsCount = await strapi.entityService.count('plugin::favorite-views.saved-view', {
+          filters: {
+            $and: [
+              { createdBy: { id: { $ne: user.id } } },
+              {
+                $or: [
+                  {
+                    $and: [
+                      { visibility: 'roles' },
+                      { $or: userRoles.map((role) => ({ roles: { $contains: role } })) }
+                    ]
+                  },
+                  { visibility: 'public' }
+                ]
+              }
+            ]
           }
-        );
+        });
       }
 
       return {
         sharedViewsData,
-        sharedViewsCount
+        pagination: {
+          currentPage: page,
+          pageSize,
+          totalPages: Math.ceil(sharedViewsCount / pageSize),
+          count: sharedViewsCount
+        }
       };
     } catch (error) {
       throw new Error(`Find favorite shared views error : ${error}`);

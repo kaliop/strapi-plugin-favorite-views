@@ -20,17 +20,19 @@ import {
 } from '@strapi/design-system';
 
 import Illo from '../../components/Illo';
-import ViewsTable from '../../components/ViewsTable';
+import ViewsTable, { TableFooter } from '../../components/ViewsTable';
 import DeleteViewModal from '../../components/DeleteViewModal';
 import UpdateViewModal from '../../components/UpdateViewModal';
 
 import useTranslate from '../../hooks/translations/useTranslate';
 import { ViewsContext } from '../../hooks/views/ViewsContext';
+import { useHistory } from 'react-router-dom';
 
 const HomePage = () => {
   const { translate } = useTranslate();
 
-  const { userViews, sharedViews, showUpdateModal } = useContext(ViewsContext);
+  const { views, showUpdateModal, setTabsIndex, setItemsPerPage } = useContext(ViewsContext);
+  const history = useHistory();
 
   return (
     <Layout>
@@ -39,16 +41,23 @@ const HomePage = () => {
         subtitle={translate('Homepage.BaseHeaderLayout.subtitle')}
       />
       <ContentLayout>
-        <TabGroup>
+        <TabGroup
+          onTabChange={(index) => {
+            history.push(`?page=1&pageSize=10&sortBy=createdAt:asc`);
+            setItemsPerPage(10);
+            setTabsIndex(index);
+          }}
+        >
           <Tabs>
             <Tab>{translate('Homepage.Tabs.MyViews')}</Tab>
             <Tab>{translate('Homepage.Tabs.SharedViews')}</Tab>
           </Tabs>
           <TabPanels>
             <TabPanel>
-              {userViews.length ? (
+              {views.length ? (
                 <Box padding={8} background="neutral0">
-                  <ViewsTable views={userViews} showActions={true} />
+                  <ViewsTable views={views} showActions={true} />
+                  <TableFooter />
                 </Box>
               ) : (
                 <EmptyStateLayout
@@ -58,9 +67,10 @@ const HomePage = () => {
               )}
             </TabPanel>
             <TabPanel>
-              {sharedViews.length ? (
+              {views.length ? (
                 <Box padding={8} background="neutral0">
-                  <ViewsTable views={sharedViews} showActions={false} />
+                  <ViewsTable views={views} showActions={false} />
+                  <TableFooter />
                 </Box>
               ) : (
                 <EmptyStateLayout

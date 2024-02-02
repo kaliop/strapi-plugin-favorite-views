@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
 import {
   Box,
@@ -13,15 +13,17 @@ import {
   Th,
   Td,
   Typography,
-  VisuallyHidden
+  VisuallyHidden,
+  SingleSelect,
+  SingleSelectOption
 } from '@strapi/design-system';
-import { Link } from '@strapi/design-system/v2';
+import { Dots, Link, NextLink, PageLink, Pagination, PreviousLink } from '@strapi/design-system/v2';
 import { Pencil, Trash } from '@strapi/icons';
 
 import useTranslate from '../../hooks/translations/useTranslate';
 import { ViewsContext } from '../../hooks/views/ViewsContext';
 
-import CONST from '../../CONST';
+import CONST, { ITEMS_PER_PAGE } from '../../CONST';
 
 const TableHead = ({ showActions }) => {
   const { translate } = useTranslate();
@@ -124,6 +126,83 @@ const TableRow = ({ view, showActions }) => {
 TableRow.propTypes = {
   view: PropTypes.object.isRequired,
   showActions: PropTypes.bool
+};
+
+export const TableFooter = () => {
+  const { viewsPagesCount, fetchParams, itemsPerPage, setItemsPerPage } = useContext(ViewsContext);
+  const history = useHistory();
+
+  const { translate } = useTranslate();
+
+  const pagesArray = [];
+
+  for (let i = 1; i <= viewsPagesCount; i++) {
+    pagesArray.push(i);
+  }
+
+  const pages = pagesArray.map((page, index) => {
+    if (index < 3 || index > viewsPagesCount - 4) {
+      return (
+        <PageLink
+          as={NavLink}
+          key={index}
+          number={page}
+          to={`?page=${page}&pageSize=${fetchParams.viewsPerPage}&sortBy=createdAt:asc`}
+        >
+          {`${translate('HomePage.Table.Footer.Pagination.Page')} ${page}`}
+        </PageLink>
+      );
+    } else if (index === 3 && fetchParams.currentPage < viewsPagesCount - 3) {
+      return (
+        <Dots key={index}>
+          {translate('HomePage.Table.Footer.Pagination.Dots', {
+            pageCount: viewsPagesCount - 6
+          })}
+        </Dots>
+      );
+    }
+  });
+
+  const handleChangeItemsPerPage = (itemsPerPage) => {
+    setItemsPerPage(itemsPerPage);
+    history.push(`favorite-views?page=1&pageSize=${itemsPerPage}&sortBy=createdAt:asc`);
+  };
+
+  return (
+    <Flex alignItems="flex-end" justifyContent="space-between">
+      <Flex gap={2}>
+        <SingleSelect size="S" onChange={handleChangeItemsPerPage} value={itemsPerPage}>
+          {ITEMS_PER_PAGE.map((option) => (
+            <SingleSelectOption key={option.value} value={option.value}>
+              {option.label}
+            </SingleSelectOption>
+          ))}
+        </SingleSelect>
+        <Typography textColor="neutral600" as="span">
+          {translate('HomePage.Table.Footer.Pagination.Select')}
+        </Typography>
+      </Flex>
+      <Pagination activePage={fetchParams.currentPage} pageCount={fetchParams.viewsPerPage}>
+        <PreviousLink
+          as={NavLink}
+          to={`?page=${fetchParams.currentPage - 1}&pageSize=${
+            fetchParams.viewsPerPage
+          }&sortBy=createdAt:asc`}
+        >
+          {translate('HomePage.Table.Footer.Pagination.Previous')}
+        </PreviousLink>
+        {pages}
+        <NextLink
+          as={NavLink}
+          to={`?page=${fetchParams.currentPage + 1}&pageSize=${
+            fetchParams.viewsPerPage
+          }&sortBy=createdAt:asc`}
+        >
+          {translate('HomePage.Table.Footer.Pagination.Next')}
+        </NextLink>
+      </Pagination>
+    </Flex>
+  );
 };
 
 const ViewsTable = ({ views, showActions }) => {
