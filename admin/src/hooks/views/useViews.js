@@ -1,19 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFetchClient, useNotification } from '@strapi/helper-plugin';
 
 import useTranslate from '../translations/useTranslate';
 
 import CONST from '../../CONST';
 import { formSchema } from './schema';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const useViews = () => {
   const { get, post, del, put } = useFetchClient();
   const { translate } = useTranslate();
   const toggleNotification = useNotification();
 
-  const [userViews, setUserViews] = useState([]);
-  const [sharedViews, setSharedViews] = useState([]);
-  const [privateViews, setPrivateViews] = useState([]);
+  const history = useHistory();
+  const location = useLocation();
+
   const [userRoles, setUserRoles] = useState([]);
 
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -30,23 +31,83 @@ const useViews = () => {
   const [nameInputError, setNameInputError] = useState('');
   const [rolesInputError, setRolesInputError] = useState('');
 
+  const [privateViews, setPrivateViews] = useState([]);
+
+  const [views, setViews] = useState([]);
+  const [tabsIndex, setTabsIndex] = useState(CONST.TABS_INDEX.userViewsTab);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [viewsPagination, setViewsPagination] = useState({
+    count: 0,
+    totalPages: 0
+  });
+  const [fetchParams, setFetchParams] = useState({
+    currentPage: 1,
+    viewsPerPage: 10
+  });
+
   useEffect(() => {
-    getUserViews();
-    getSharedViews();
+    setFetchParams({
+      currentPage: 1,
+      viewsPerPage: 10
+    });
+    history.push(`?page=1&pageSize=10&sortBy=createdAt:asc`);
+  }, []);
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const page = Number(query.get('page'));
+    const pageSize = Number(query.get('pageSize'));
+
+    setFetchParams({
+      currentPage: page,
+      viewsPerPage: pageSize
+    });
+
+    if (tabsIndex === CONST.TABS_INDEX.userViewsTab) {
+      getUserViews(page, pageSize);
+    }
+    if (tabsIndex === CONST.TABS_INDEX.sharedViewsTab) {
+      getSharedViews(page, pageSize);
+    }
+  }, [location, tabsIndex]);
+
+  useEffect(() => {
     getPrivateViews();
   }, []);
 
-  const getUserViews = async () => {
-    const { data } = await get(CONST.REQUEST_URLS.GET_USER_VIEWS);
+  const getUserViews = useCallback(
+    async (page = 1, pageSize = 10) => {
+      const response = await get(
+        `${CONST.REQUEST_URLS.GET_USER_VIEWS}?page=${page}&pageSize=${pageSize}&sortBy=createdAt:asc`
+      );
 
-    setUserViews(data.userViewsData);
-  };
+      const { userViewsData, pagination } = response.data;
+      setViews(userViewsData || []);
+      setViewsPagination({
+        count: Number(pagination.count),
+        totalPages: Number(pagination.totalPages)
+      });
+    },
+    [fetchParams]
+  );
 
-  const getSharedViews = async () => {
-    const { data } = await get(CONST.REQUEST_URLS.GET_SHARED_VIEWS);
+  const getSharedViews = useCallback(
+    async (page = 1, pageSize = 10) => {
+      const response = await get(
+        `${CONST.REQUEST_URLS.GET_SHARED_VIEWS}?page=${page}&pageSize=${pageSize}&sortBy=createdAt:asc`
+      );
 
-    setSharedViews(data.sharedViewsData);
-  };
+      const { sharedViewsData, pagination } = response.data;
+      setViews(sharedViewsData || []);
+      setViewsPagination({
+        count: Number(pagination.count),
+        totalPages: Number(pagination.totalPages)
+      });
+    },
+    [fetchParams]
+  );
+
+  const viewsPagesCount = useMemo(() => viewsPagination.totalPages, [viewsPagination, views]);
 
   const getPrivateViews = async () => {
     const { data } = await get(CONST.REQUEST_URLS.GET_PRIVATE_VIEWS);
@@ -180,40 +241,44 @@ const useViews = () => {
   };
 
   return {
-    privateViews,
-    setPrivateViews,
-    userViews,
-    setUserViews,
-    sharedViews,
-    setSharedViews,
-    userRoles,
-    setUserRoles,
-    showCreateModal,
-    setShowCreateModal,
-    showUpdateModal,
-    setShowUpdateModal,
-    showDeleteModal,
-    setShowDeleteModal,
-    viewToUpdate,
-    setViewToUpdate,
-    viewToDelete,
-    setViewToDelete,
-    viewsPopoverVisible,
-    setViewsPopoverVisible,
-    viewName,
-    setViewName,
-    viewRoles,
-    setViewRoles,
-    viewVisibility,
-    setViewVisibility,
-    nameInputError,
-    setNameInputError,
-    rolesInputError,
-    setRolesInputError,
     addView,
     deleteView,
+    fetchParams,
+    itemsPerPage,
+    nameInputError,
+    privateViews,
+    rolesInputError,
+    setItemsPerPage,
+    setNameInputError,
+    setPrivateViews,
+    setRolesInputError,
+    setShowCreateModal,
+    setShowDeleteModal,
+    setShowUpdateModal,
+    setTabsIndex,
+    setUserRoles,
+    setViewName,
+    setViewRoles,
+    setViewsPopoverVisible,
+    setViewToDelete,
+    setViewToUpdate,
+    setViewVisibility,
+    showCreateModal,
+    showDeleteModal,
+    showUpdateModal,
+    tabsIndex,
     updateView,
-    validateForm
+    userRoles,
+    validateForm,
+    viewName,
+    viewRoles,
+    views,
+    viewsPagesCount,
+    viewsPagination,
+    viewsPopoverVisible,
+    viewToDelete,
+    viewToUpdate,
+    viewVisibility
   };
 };
 
