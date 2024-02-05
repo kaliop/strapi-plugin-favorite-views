@@ -219,6 +219,7 @@ const ViewsTable = ({ views, showActions }) => {
           ))}
         </Tbody>
       </Table>
+      <TableFooter />
     </>
   );
 };

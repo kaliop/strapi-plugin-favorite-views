@@ -20,7 +20,7 @@ import {
 } from '@strapi/design-system';
 
 import Illo from '../../components/Illo';
-import ViewsTable, { TableFooter } from '../../components/ViewsTable';
+import ViewsTable from '../../components/ViewsTable';
 import DeleteViewModal from '../../components/DeleteViewModal';
 import UpdateViewModal from '../../components/UpdateViewModal';
 
@@ -57,7 +57,6 @@ const HomePage = () => {
               {views.length ? (
                 <Box padding={8} background="neutral0">
                   <ViewsTable views={views} showActions={true} />
-                  <TableFooter />
                 </Box>
               ) : (
                 <EmptyStateLayout
@@ -70,7 +69,6 @@ const HomePage = () => {
               {views.length ? (
                 <Box padding={8} background="neutral0">
                   <ViewsTable views={views} showActions={false} />
-                  <TableFooter />
                 </Box>
               ) : (
                 <EmptyStateLayout
