@@ -121,6 +121,7 @@ const useViews = () => {
 
       getUserViews();
       getSharedViews();
+      getPrivateViews();
 
       toggleNotification({
         type: CONST.NOTIFICATION_TYPES.SUCCESS,
