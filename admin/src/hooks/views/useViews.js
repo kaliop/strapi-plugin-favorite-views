@@ -238,6 +238,8 @@ const useViews = () => {
 
       return;
     }
+
+    return true;
   };
 
   return {
