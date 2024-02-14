@@ -231,7 +231,11 @@ const useViews = () => {
     if (!isFormValid.success) {
       isFormValid.error.errors.forEach((error) => {
         if (error.path.includes('name')) {
-          setNameInputError(translate('CreateUpdateViewForm.NameInput.emptyError'));
+          if (error.code === 'too_big') {
+            setNameInputError(translate('CreateUpdateViewForm.NameInput.tooBigError'));
+          } else {
+            setNameInputError(translate('CreateUpdateViewForm.NameInput.emptyError'));
+          }
         } else if (error.path.includes('roles')) {
           setRolesInputError(translate('CreateUpdateViewForm.RolesInput.emptyError'));
         }

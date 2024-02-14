@@ -31,6 +31,7 @@
   "CreateUpdateViewForm.NameInput.label": "View name",
   "CreateUpdateViewForm.NameInput.hint": "The name must not exceed 32 characters",
   "CreateUpdateViewForm.NameInput.emptyError": "This value is required",
+  "CreateUpdateViewForm.NameInput.tooBigError": "The name must not exceed 32 characters",
   "CreateUpdateViewForm.RolesInput.label": "Roles",
   "CreateUpdateViewForm.RolesInput.placeholder": "Roles to share a view with",
   "CreateUpdateViewForm.RolesInput.emptyError": "You must select at least one role from the list",
