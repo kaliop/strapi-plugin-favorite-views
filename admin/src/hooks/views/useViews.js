@@ -5,14 +5,13 @@ import useTranslate from '../translations/useTranslate';
 
 import CONST from '../../CONST';
 import { formSchema } from './schema';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const useViews = () => {
   const { get, post, del, put } = useFetchClient();
   const { translate } = useTranslate();
   const toggleNotification = useNotification();
 
-  const history = useHistory();
   const location = useLocation();
 
   const [userRoles, setUserRoles] = useState([]);
@@ -44,14 +43,6 @@ const useViews = () => {
     currentPage: 1,
     viewsPerPage: 10
   });
-
-  useEffect(() => {
-    setFetchParams({
-      currentPage: 1,
-      viewsPerPage: 10
-    });
-    history.push(`?page=1&pageSize=10&sortBy=createdAt:asc`);
-  }, []);
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
@@ -264,6 +255,7 @@ const useViews = () => {
     privateViews,
     rolesInputError,
     setItemsPerPage,
+    setFetchParams,
     setNameInputError,
     setPrivateViews,
     setRolesInputError,
