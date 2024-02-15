@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink, useHistory } from 'react-router-dom';
 
@@ -208,17 +208,6 @@ export const TableFooter = () => {
 const ViewsTable = ({ views, showActions }) => {
   const COL_COUNT = showActions ? 4 : 3;
   const ROW_COUNT = views.length;
-
-  const { setFetchParams } = useContext(ViewsContext);
-  const history = useHistory();
-
-  useEffect(() => {
-    setFetchParams({
-      currentPage: 1,
-      viewsPerPage: 10
-    });
-    history.push(`?page=1&pageSize=10&sortBy=createdAt:asc`);
-  }, []);
 
   return (
     <>
