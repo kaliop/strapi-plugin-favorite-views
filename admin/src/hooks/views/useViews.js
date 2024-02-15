@@ -139,7 +139,12 @@ const useViews = () => {
     try {
       await del(`${CONST.REQUEST_URLS.DELETE_VIEW}${id}`);
 
-      setViews(views.filter((view) => view.id !== id));
+      if (tabsIndex === CONST.TABS_INDEX.userViewsTab) {
+        getUserViews(fetchParams.page, fetchParams.pageSize);
+      }
+      if (tabsIndex === CONST.TABS_INDEX.sharedViewsTab) {
+        getSharedViews(fetchParams.page, fetchParams.pageSize);
+      }
 
       toggleNotification({
         type: CONST.NOTIFICATION_TYPES.SUCCESS,
@@ -157,7 +162,12 @@ const useViews = () => {
     try {
       await put(`${CONST.REQUEST_URLS.UPDATE_VIEW}${id}`, viewData);
 
-      setViews(views.filter((view) => view.id !== id));
+      if (tabsIndex === CONST.TABS_INDEX.userViewsTab) {
+        getUserViews(fetchParams.page, fetchParams.pageSize);
+      }
+      if (tabsIndex === CONST.TABS_INDEX.sharedViewsTab) {
+        getSharedViews(fetchParams.page, fetchParams.pageSize);
+      }
 
       toggleNotification({
         type: CONST.NOTIFICATION_TYPES.SUCCESS,
