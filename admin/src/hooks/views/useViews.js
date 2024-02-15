@@ -139,8 +139,7 @@ const useViews = () => {
     try {
       await del(`${CONST.REQUEST_URLS.DELETE_VIEW}${id}`);
 
-      getUserViews();
-      getSharedViews();
+      setViews(views.filter((view) => view.id !== id));
 
       toggleNotification({
         type: CONST.NOTIFICATION_TYPES.SUCCESS,
@@ -158,8 +157,7 @@ const useViews = () => {
     try {
       await put(`${CONST.REQUEST_URLS.UPDATE_VIEW}${id}`, viewData);
 
-      getUserViews();
-      getSharedViews();
+      setViews(views.filter((view) => view.id !== id));
 
       toggleNotification({
         type: CONST.NOTIFICATION_TYPES.SUCCESS,
