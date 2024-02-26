@@ -5,14 +5,13 @@ import useTranslate from '../translations/useTranslate';
 
 import CONST from '../../CONST';
 import { formSchema } from './schema';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const useViews = () => {
   const { get, post, del, put } = useFetchClient();
   const { translate } = useTranslate();
   const toggleNotification = useNotification();
 
-  const history = useHistory();
   const location = useLocation();
 
   const [userRoles, setUserRoles] = useState([]);
@@ -44,14 +43,6 @@ const useViews = () => {
     currentPage: 1,
     viewsPerPage: 10
   });
-
-  useEffect(() => {
-    setFetchParams({
-      currentPage: 1,
-      viewsPerPage: 10
-    });
-    history.push(`?page=1&pageSize=10&sortBy=createdAt:asc`);
-  }, []);
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
@@ -139,8 +130,12 @@ const useViews = () => {
     try {
       await del(`${CONST.REQUEST_URLS.DELETE_VIEW}${id}`);
 
-      getUserViews();
-      getSharedViews();
+      if (tabsIndex === CONST.TABS_INDEX.userViewsTab) {
+        getUserViews(fetchParams.page, fetchParams.pageSize);
+      }
+      if (tabsIndex === CONST.TABS_INDEX.sharedViewsTab) {
+        getSharedViews(fetchParams.page, fetchParams.pageSize);
+      }
 
       toggleNotification({
         type: CONST.NOTIFICATION_TYPES.SUCCESS,
@@ -158,8 +153,12 @@ const useViews = () => {
     try {
       await put(`${CONST.REQUEST_URLS.UPDATE_VIEW}${id}`, viewData);
 
-      getUserViews();
-      getSharedViews();
+      if (tabsIndex === CONST.TABS_INDEX.userViewsTab) {
+        getUserViews(fetchParams.page, fetchParams.pageSize);
+      }
+      if (tabsIndex === CONST.TABS_INDEX.sharedViewsTab) {
+        getSharedViews(fetchParams.page, fetchParams.pageSize);
+      }
 
       toggleNotification({
         type: CONST.NOTIFICATION_TYPES.SUCCESS,
@@ -256,6 +255,7 @@ const useViews = () => {
     privateViews,
     rolesInputError,
     setItemsPerPage,
+    setFetchParams,
     setNameInputError,
     setPrivateViews,
     setRolesInputError,

@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import {
   BaseHeaderLayout,
@@ -31,8 +31,17 @@ import { useHistory } from 'react-router-dom';
 const HomePage = () => {
   const { translate } = useTranslate();
 
-  const { views, showUpdateModal, setTabsIndex, setItemsPerPage } = useContext(ViewsContext);
+  const { views, showUpdateModal, setTabsIndex, setItemsPerPage, setFetchParams } =
+    useContext(ViewsContext);
   const history = useHistory();
+
+  useEffect(() => {
+    setFetchParams({
+      currentPage: 1,
+      viewsPerPage: 10
+    });
+    history.push(`?page=1&pageSize=10&sortBy=createdAt:asc`);
+  }, []);
 
   return (
     <Layout>
