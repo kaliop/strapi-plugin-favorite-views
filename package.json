@@ -1,7 +1,7 @@
 {
   "name": "favorite-views",
-  "version": "0.0.0",
-  "description": "This is the description of the plugin.",
+  "version": "1.0",
+  "description": "Plugin for creating 'views' to access specific searches in a defined content type",
   "strapi": {
     "name": "favorite-views",
     "description": "Description of Favorite Views plugin",
