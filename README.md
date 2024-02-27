@@ -1,4 +1,4 @@
-# Admin notification plugin
+# Favorites views plugin
 
 This package lets you create "favorite views" to simplify access to specific searches within a defined content type.
 Make your searches easier by creating links to customized views in your Strapi interface.
