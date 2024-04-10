@@ -11,6 +11,9 @@
     "plugin:react-hooks/recommended",
     "plugin:prettier/recommended"
   ],
+  "globals": {
+    "process": true
+  },
   "parserOptions": {
     "ecmaVersion": "latest",
     "ecmaFeatures": {
@@ -19,6 +22,7 @@
     "sourceType": "module"
   },
   "plugins": ["react"],
+  "root": true,
   "rules": {
     "react-hooks/exhaustive-deps": 0
   }
