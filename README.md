@@ -21,6 +21,20 @@ module.exports = ({ env }) => ({
 });
 ```
 
+## Configuration
+
+You can inject the widget component to any plugin injection zone using the `STRAPI_ADMIN_FAVORITE_VIEWS_INJECT_TO` environment variable.
+
+The variable contains a comma separated list of zones to inject, in the following syntax:
+
+`plugin::<plugin name>.<container>.<block>`
+
+Example:
+
+```
+STRAPI_ADMIN_FAVORITE_VIEWS_INJECT_TO=plugin::opensearch.globalSearch.listView,plugin::another-plugin.container.block
+```
+
 ## How to use
 
 This plugin lets you create views to directly access your favorite filter selection in the content type of your choice.

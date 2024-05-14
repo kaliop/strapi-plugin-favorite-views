@@ -2,7 +2,7 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 # Linter
-yarn run lint:fix -- --max-warnings 0
+npm run lint:fix -- --max-warnings 0
 
 # Ask question to add files if Linter update some files
 if [ "$(git status --porcelain | grep -s -n -E "^MM ")" != "" ]; then
@@ -24,7 +24,7 @@ if [ "$(git status --porcelain | grep -s -n -E "^MM ")" != "" ]; then
 fi
 
 # Prettier
-yarn run format:write -- --loglevel warn
+npm run format:write -- --loglevel warn
 
 # Add staged files that are updated by prettier or linter
 if [ "$(git status --porcelain | grep -E "^MM ")" != "" ]; then

@@ -52,6 +52,23 @@ export default {
         </ViewsProvider>
       )
     });
+    if (process.env.STRAPI_ADMIN_FAVORITE_VIEWS_INJECT_TO) {
+      for (const entry of process.env.STRAPI_ADMIN_FAVORITE_VIEWS_INJECT_TO.split(',')) {
+        const [pluginName, container, block] = entry.split('.');
+        const plugin = app.getPlugin(pluginName.replace(/^plugin::/, ''));
+
+        if (!plugin) continue;
+
+        plugin.injectComponent(container, block, {
+          name: 'favorite-views-widget',
+          Component: () => (
+            <ViewsProvider>
+              <ViewsWidget />
+            </ViewsProvider>
+          )
+        });
+      }
+    }
   },
   async registerTrads({ locales }) {
     const importedTrads = await Promise.all(
