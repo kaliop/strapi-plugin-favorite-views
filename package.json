@@ -1,6 +1,6 @@
 {
-  "name": "srtapi-plugin-favorite-views",
-  "version": "1.0",
+  "name": "strapi-plugin-favorite-views",
+  "version": "1.0.0",
   "description": "A Strapi plugin for creating 'views' to access specific searches in a defined content type",
   "strapi": {
     "name": "favorite-views",

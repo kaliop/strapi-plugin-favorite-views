@@ -30,7 +30,11 @@ module.exports = () => ({
 
 ## Configure
 
-You can inject the widget component to any plugin injection zone using the `STRAPI_ADMIN_FAVORITE_VIEWS_INJECT_TO` environment variable.
+This plugin injects a widget component into the content-manager:
+
+![Strapi content manager injection zone](./docs/images/doc-injection-zone-cm.png)
+
+You can inject the widget component to any additional plugin injection zone using the `STRAPI_ADMIN_FAVORITE_VIEWS_INJECT_TO` environment variable.
 
 The variable contains a comma separated list of zones to inject, in the following syntax:
 
@@ -45,5 +49,7 @@ STRAPI_ADMIN_FAVORITE_VIEWS_INJECT_TO=plugin::opensearch.globalSearch.listView,p
 ## How to use
 
 This plugin lets you create views to directly access your favorite filter selection in the content type of your choice.
+
 Install the plugin and once you've selected your filters, click on "create new view" and you now have it on `My private view` widget.
+
 You can also share your views with specific roles.
