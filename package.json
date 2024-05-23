@@ -1,10 +1,10 @@
 {
-  "name": "favorite-views",
+  "name": "srtapi-plugin-favorite-views",
   "version": "1.0",
-  "description": "Plugin for creating 'views' to access specific searches in a defined content type",
+  "description": "A Strapi plugin for creating 'views' to access specific searches in a defined content type",
   "strapi": {
     "name": "favorite-views",
-    "description": "Description of Favorite Views plugin",
+    "description": "Manage favorite views in Strapi's admin console",
     "kind": "plugin",
     "displayName": "Favorite Views"
   },
@@ -38,17 +38,22 @@
     "styled-components": "^5.3.6"
   },
   "peerDependencies": {
+    "@strapi/strapi": "^4.0.0",
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0",
     "react-router-dom": "^5.3.4",
     "styled-components": "^5.3.6"
   },
   "author": {
-    "name": "A Strapi developer"
+    "name": "Kaliop",
+    "email": "support@kaliop.com",
+    "url": "https://www.kaliop.com/"
   },
   "maintainers": [
     {
-      "name": "A Strapi developer"
+      "name": "Kaliop",
+      "email": "support@kaliop.com",
+      "url": "https://www.kaliop.com/"
     }
   ],
   "engines": {
