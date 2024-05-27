@@ -2,7 +2,9 @@
 
 # Favorite views for Strapi
 
+<!--
 ![test badge](https://github.com/kaliop/strapi-plugin-favorite-views/actions/workflows/test.yml/badge.svg?branch=main)
+-->
 
 This package lets you create "favorite views" to simplify access to specific searches within a defined content type.
 Make your searches easier by creating links to customized views in your Strapi interface.
