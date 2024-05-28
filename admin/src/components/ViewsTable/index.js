@@ -182,7 +182,7 @@ export const TableFooter = () => {
           {translate('HomePage.Table.Footer.Pagination.Select')}
         </Typography>
       </Flex>
-      <Pagination activePage={fetchParams.currentPage} pageCount={fetchParams.viewsPerPage}>
+      <Pagination activePage={fetchParams.currentPage} pageCount={viewsPagesCount}>
         <PreviousLink
           as={NavLink}
           to={`?page=${fetchParams.currentPage - 1}&pageSize=${

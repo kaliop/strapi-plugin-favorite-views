@@ -6,7 +6,11 @@ module.exports = ({ strapi }) => ({
   async getUserViews(ctx) {
     const contentType = strapi.contentType('plugin::favorite-views.saved-view');
     const user = ctx.state.user;
-    const { page = 1, pageSize = 10 } = ctx.query;
+    const sanitizedQueryParams = await sanitize.contentAPI.query(ctx.query, contentType, {
+      auth: ctx.state.auth
+    });
+    const { page = 1, pageSize = 10 } = sanitizedQueryParams;
+
     const { results, pagination } = await strapi
       .plugin('favorite-views')
       .service('favoriteViews')
@@ -22,7 +26,10 @@ module.exports = ({ strapi }) => ({
   async getSharedViews(ctx) {
     const contentType = strapi.contentType('plugin::favorite-views.saved-view');
     const user = ctx.state.user;
-    const { page = 1, pageSize = 10 } = ctx.query;
+    const sanitizedQueryParams = await sanitize.contentAPI.query(ctx.query, contentType, {
+      auth: ctx.state.auth
+    });
+    const { page = 1, pageSize = 10 } = sanitizedQueryParams;
 
     const { results, pagination } = await strapi
       .plugin('favorite-views')

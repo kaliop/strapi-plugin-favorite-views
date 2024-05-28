@@ -71,7 +71,6 @@ const useViews = () => {
       const response = await get(
         `${CONST.REQUEST_URLS.GET_USER_VIEWS}?page=${page}&pageSize=${pageSize}&sortBy=createdAt:asc`
       );
-      console.log(response);
       const { userViewsData, pagination } = response.data;
       setViews(userViewsData || []);
       setViewsPagination({
@@ -87,7 +86,6 @@ const useViews = () => {
       const response = await get(
         `${CONST.REQUEST_URLS.GET_SHARED_VIEWS}?page=${page}&pageSize=${pageSize}&sortBy=createdAt:asc`
       );
-      console.log(response);
       const { sharedViewsData, pagination } = response.data;
       setViews(sharedViewsData || []);
       setViewsPagination({
