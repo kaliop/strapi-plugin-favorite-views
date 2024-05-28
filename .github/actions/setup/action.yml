@@ -1,0 +1,17 @@
+name: setup
+
+inputs:
+  node-version:
+    description: node version to use with setup-node@v4 action
+    required: false
+    default: '20.x'
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        cache: npm
+        node-version: ${{ inputs.node-version }}
+    - run: npm ci
+      shell: bash

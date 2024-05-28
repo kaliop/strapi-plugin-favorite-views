@@ -23,9 +23,9 @@ Then, enable the plugin in strapi:
 // config/plugins.js
 
 module.exports = () => ({
-  "favorite-views": {
-    enabled: true,
-  },
+  'favorite-views': {
+    enabled: true
+  }
   // .. other plugins
 });
 ```

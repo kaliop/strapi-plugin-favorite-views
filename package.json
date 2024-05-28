@@ -15,7 +15,7 @@
     "format": "prettier --ignore-path .eslintignore",
     "format:check": "prettier --ignore-path .eslintignore --check .",
     "format:write": "prettier --ignore-path .eslintignore --write .",
-    "prepare": "husky install"
+    "prepare": "[ -x \"$(command -v husky)\" ] && husky install || echo \"husky command not found\""
   },
   "dependencies": {
     "@strapi/design-system": "^1.6.3",
