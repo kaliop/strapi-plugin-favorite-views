@@ -3,51 +3,30 @@
 module.exports = ({ strapi }) => ({
   async getUserViews(params, user) {
     const { page = 1, pageSize = 10 } = params;
-    const startIndex = (page - 1) * pageSize;
 
     try {
-      let userViewsData = [];
-      let userViewsCount;
       if (user) {
-        userViewsData = await strapi.entityService.findMany('plugin::favorite-views.saved-view', {
-          start: startIndex,
-          limit: pageSize,
+        return await strapi.entityService.findPage('plugin::favorite-views.saved-view', {
+          page,
+          pageSize,
           filters: { createdBy: { id: user.id } },
           populate: ['createdBy']
         });
-
-        userViewsCount = await strapi.entityService.count('plugin::favorite-views.saved-view', {
-          filters: {
-            $and: [{ createdBy: { id: user.id } }, { visibility: 'private' }]
-          }
-        });
       }
-
-      return {
-        userViewsData,
-        pagination: {
-          currentPage: page,
-          pageSize,
-          totalPages: Math.ceil(userViewsCount / pageSize),
-          count: userViewsCount
-        }
-      };
     } catch (error) {
       throw new Error(`Find favorite user views error : ${error}`);
     }
   },
+
   async getSharedViews(params, user) {
     const { page = 1, pageSize = 10 } = params;
-    const startIndex = (page - 1) * pageSize;
 
     try {
-      let sharedViewsData = [];
-      let sharedViewsCount;
       if (user.roles.length) {
         const userRoles = user.roles.map((role) => role.code);
-        sharedViewsData = await strapi.entityService.findMany('plugin::favorite-views.saved-view', {
-          start: startIndex,
-          limit: pageSize,
+        return await strapi.entityService.findPage('plugin::favorite-views.saved-view', {
+          page,
+          pageSize,
           filters: {
             $and: [
               { createdBy: { id: { $ne: user.id } } },
@@ -66,40 +45,12 @@ module.exports = ({ strapi }) => ({
           },
           populate: ['createdBy']
         });
-
-        sharedViewsCount = await strapi.entityService.count('plugin::favorite-views.saved-view', {
-          filters: {
-            $and: [
-              { createdBy: { id: { $ne: user.id } } },
-              {
-                $or: [
-                  {
-                    $and: [
-                      { visibility: 'roles' },
-                      { $or: userRoles.map((role) => ({ roles: { $contains: role } })) }
-                    ]
-                  },
-                  { visibility: 'public' }
-                ]
-              }
-            ]
-          }
-        });
       }
-
-      return {
-        sharedViewsData,
-        pagination: {
-          currentPage: page,
-          pageSize,
-          totalPages: Math.ceil(sharedViewsCount / pageSize),
-          count: sharedViewsCount
-        }
-      };
     } catch (error) {
       throw new Error(`Find favorite shared views error : ${error}`);
     }
   },
+
   async getPrivateViews(user) {
     try {
       let privateViewsData = [];
@@ -122,6 +73,7 @@ module.exports = ({ strapi }) => ({
       throw new Error(`Find favorite private views error : ${error}`);
     }
   },
+
   async create(name, slug, roles, visibility, userId) {
     if (userId) {
       const ADMIN_URL = strapi.admin.config.url || '/admin';
@@ -144,6 +96,7 @@ module.exports = ({ strapi }) => ({
       throw new Error('UserId is not defined');
     }
   },
+
   async delete(id) {
     if (id) {
       try {
@@ -155,6 +108,7 @@ module.exports = ({ strapi }) => ({
       throw new Error('Id is not defined');
     }
   },
+
   async update(id, name, roles, visibility, userId) {
     if (id) {
       try {
@@ -173,6 +127,7 @@ module.exports = ({ strapi }) => ({
       throw new Error('Id is not defined');
     }
   },
+
   async getRoles() {
     return await strapi.db.query('admin::role').findMany();
   }
