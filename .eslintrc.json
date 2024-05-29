@@ -2,6 +2,7 @@
   "env": {
     "commonjs": true,
     "browser": true,
+    "jest/globals": true,
     "node": false,
     "es2021": true
   },
@@ -21,7 +22,7 @@
     },
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": ["jest", "react"],
   "root": true,
   "rules": {
     "react-hooks/exhaustive-deps": 0
