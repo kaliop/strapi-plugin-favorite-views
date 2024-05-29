@@ -53,22 +53,14 @@ module.exports = ({ strapi }) => ({
 
   async getPrivateViews(user) {
     try {
-      let privateViewsData = [];
       if (user) {
-        privateViewsData = await strapi.entityService.findMany(
-          'plugin::favorite-views.saved-view',
-          {
-            filters: {
-              $and: [{ createdBy: { id: user.id } }, { visibility: 'private' }]
-            },
-            populate: ['createdBy']
-          }
-        );
+        return await strapi.entityService.findMany('plugin::favorite-views.saved-view', {
+          filters: {
+            $and: [{ createdBy: { id: user.id } }, { visibility: 'private' }]
+          },
+          populate: ['createdBy']
+        });
       }
-
-      return {
-        privateViewsData
-      };
     } catch (error) {
       throw new Error(`Find favorite private views error : ${error}`);
     }
