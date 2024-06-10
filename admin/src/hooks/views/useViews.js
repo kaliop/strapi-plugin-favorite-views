@@ -101,7 +101,7 @@ const useViews = () => {
   const getPrivateViews = async () => {
     const { data } = await get(CONST.REQUEST_URLS.GET_PRIVATE_VIEWS);
 
-    setPrivateViews(data.privateViewsData);
+    setPrivateViews(data);
   };
 
   const addView = async (viewData) => {
