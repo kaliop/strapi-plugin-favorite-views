@@ -169,7 +169,7 @@ export const TableFooter = () => {
   };
 
   return (
-    <Flex alignItems="flex-end" justifyContent="space-between">
+    <Flex alignItems="flex-end" justifyContent="space-between" marginTop={4}>
       <Flex gap={2}>
         <SingleSelect size="S" onChange={handleChangeItemsPerPage} value={itemsPerPage}>
           {ITEMS_PER_PAGE.map((option) => (
