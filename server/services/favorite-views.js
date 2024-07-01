@@ -2,17 +2,20 @@
 
 module.exports = ({ strapi }) => ({
   async getUserViews(params, user) {
+    if (!user) {
+      strapi.log.warn(`[plugin favorite-views] no user given when fetching user views`);
+      return [];
+    }
+
     const { page = 1, pageSize = 10 } = params;
 
     try {
-      if (user) {
-        return await strapi.entityService.findPage('plugin::favorite-views.saved-view', {
-          page,
-          pageSize,
-          filters: { createdBy: { id: user.id } },
-          populate: ['createdBy']
-        });
-      }
+      return await strapi.entityService.findPage('plugin::favorite-views.saved-view', {
+        page,
+        pageSize,
+        filters: { createdBy: { id: user.id } },
+        populate: ['createdBy']
+      });
     } catch (error) {
       throw new Error(`Find favorite user views error : ${error}`);
     }
@@ -21,46 +24,48 @@ module.exports = ({ strapi }) => ({
   async getSharedViews(params, user) {
     const { page = 1, pageSize = 10 } = params;
 
+    if (!user.roles?.length) return [];
+
     try {
-      if (user.roles.length) {
-        const userRoles = user.roles.map((role) => role.code);
-        return await strapi.entityService.findPage('plugin::favorite-views.saved-view', {
-          page,
-          pageSize,
-          filters: {
-            $and: [
-              { createdBy: { id: { $ne: user.id } } },
-              {
-                $or: [
-                  {
-                    $and: [
-                      { visibility: 'roles' },
-                      { $or: userRoles.map((role) => ({ roles: { $contains: role } })) }
-                    ]
-                  },
-                  { visibility: 'public' }
-                ]
-              }
-            ]
-          },
-          populate: ['createdBy']
-        });
-      }
+      return await strapi.entityService.findPage('plugin::favorite-views.saved-view', {
+        page,
+        pageSize,
+        filters: {
+          $and: [
+            { createdBy: { id: { $ne: user.id } } },
+            {
+              $or: [
+                {
+                  $and: [
+                    { visibility: 'roles' },
+                    { $or: user.roles.map((role) => ({ roles: { $contains: role.code } })) }
+                  ]
+                },
+                { visibility: 'public' }
+              ]
+            }
+          ]
+        },
+        populate: ['createdBy']
+      });
     } catch (error) {
       throw new Error(`Find favorite shared views error : ${error}`);
     }
   },
 
   async getPrivateViews(user) {
+    if (!user) {
+      strapi.log.warn(`[plugin favorite-views] no user given when fetching private views`);
+      return [];
+    }
+
     try {
-      if (user) {
-        return await strapi.entityService.findMany('plugin::favorite-views.saved-view', {
-          filters: {
-            $and: [{ createdBy: { id: user.id } }, { visibility: 'private' }]
-          },
-          populate: ['createdBy']
-        });
-      }
+      return await strapi.entityService.findMany('plugin::favorite-views.saved-view', {
+        filters: {
+          $and: [{ createdBy: { id: user.id } }, { visibility: 'private' }]
+        },
+        populate: ['createdBy']
+      });
     } catch (error) {
       throw new Error(`Find favorite private views error : ${error}`);
     }

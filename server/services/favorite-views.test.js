@@ -17,6 +17,7 @@ describe('services/favorite-views', () => {
         create: jest.fn(async () => {}),
         delete: jest.fn(async () => {}),
         findMany: jest.fn(async () => [{ foo: 'bar' }]),
+        findPage: jest.fn(async () => [{ foo: 'bar' }]),
         update: jest.fn(async () => {})
       }
     };
@@ -59,18 +60,13 @@ describe('services/favorite-views', () => {
 
   test('getPrivateViews', async () => {
     const response = await fav.getPrivateViews(user);
-    expect(response).toStrictEqual({
-      privateViewsData: [{ foo: 'bar' }]
-    });
+    expect(response).toStrictEqual([{ foo: 'bar' }]);
   });
 
   test('getSharedViews', async () => {
     const response = await fav.getSharedViews({}, user);
 
-    expect(response).toStrictEqual({
-      sharedViewsData: [{ foo: 'bar' }],
-      pagination: { currentPage: 1, pageSize: 10, totalPages: 5, count: 42 }
-    });
+    expect(response).toStrictEqual([{ foo: 'bar' }]);
   });
 
   test('getUserViews', async () => {
@@ -82,14 +78,19 @@ describe('services/favorite-views', () => {
       user
     );
 
-    expect(strapi.entityService.findMany.mock.calls[0][0]).toBe(
-      'plugin::favorite-views.saved-view'
-    );
+    expect(strapi.entityService.findPage.mock.calls[0]).toStrictEqual([
+      'plugin::favorite-views.saved-view',
+      {
+        filters: {
+          createdBy: { id: user.id }
+        },
+        page: 1,
+        pageSize: 10,
+        populate: ['createdBy']
+      }
+    ]);
 
-    expect(response).toStrictEqual({
-      userViewsData: [{ foo: 'bar' }],
-      pagination: { currentPage: 1, pageSize: 10, totalPages: 5, count: 42 }
-    });
+    expect(response).toStrictEqual([{ foo: 'bar' }]);
   });
 
   test('update', async () => {
