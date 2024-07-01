@@ -46,8 +46,8 @@ const useViews = () => {
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
-    const page = Number(query.get('page'));
-    const pageSize = Number(query.get('pageSize'));
+    const page = Number(query.get('page')) === 0 ? 1 : Number(query.get('page'));
+    const pageSize = Number(query.get('pageSize')) === 0 ? 10 : Number(query.get('pageSize'));
 
     setFetchParams({
       currentPage: page,
@@ -71,12 +71,11 @@ const useViews = () => {
       const response = await get(
         `${CONST.REQUEST_URLS.GET_USER_VIEWS}?page=${page}&pageSize=${pageSize}&sortBy=createdAt:asc`
       );
-
       const { userViewsData, pagination } = response.data;
       setViews(userViewsData || []);
       setViewsPagination({
-        count: Number(pagination.count),
-        totalPages: Number(pagination.totalPages)
+        count: Number(pagination.total),
+        totalPages: Number(pagination.pageCount)
       });
     },
     [fetchParams]
@@ -87,12 +86,11 @@ const useViews = () => {
       const response = await get(
         `${CONST.REQUEST_URLS.GET_SHARED_VIEWS}?page=${page}&pageSize=${pageSize}&sortBy=createdAt:asc`
       );
-
       const { sharedViewsData, pagination } = response.data;
       setViews(sharedViewsData || []);
       setViewsPagination({
-        count: Number(pagination.count),
-        totalPages: Number(pagination.totalPages)
+        count: Number(pagination.total),
+        totalPages: Number(pagination.pageCount)
       });
     },
     [fetchParams]
@@ -103,7 +101,7 @@ const useViews = () => {
   const getPrivateViews = async () => {
     const { data } = await get(CONST.REQUEST_URLS.GET_PRIVATE_VIEWS);
 
-    setPrivateViews(data.privateViewsData);
+    setPrivateViews(data);
   };
 
   const addView = async (viewData) => {
@@ -131,10 +129,10 @@ const useViews = () => {
       await del(`${CONST.REQUEST_URLS.DELETE_VIEW}${id}`);
 
       if (tabsIndex === CONST.TABS_INDEX.userViewsTab) {
-        getUserViews(fetchParams.page, fetchParams.pageSize);
+        getUserViews(fetchParams.currentPage, fetchParams.viewsPerPage);
       }
       if (tabsIndex === CONST.TABS_INDEX.sharedViewsTab) {
-        getSharedViews(fetchParams.page, fetchParams.pageSize);
+        getSharedViews(fetchParams.currentPage, fetchParams.viewsPerPage);
       }
 
       toggleNotification({
@@ -154,10 +152,10 @@ const useViews = () => {
       await put(`${CONST.REQUEST_URLS.UPDATE_VIEW}${id}`, viewData);
 
       if (tabsIndex === CONST.TABS_INDEX.userViewsTab) {
-        getUserViews(fetchParams.page, fetchParams.pageSize);
+        getUserViews(fetchParams.currentPage, fetchParams.viewsPerPage);
       }
       if (tabsIndex === CONST.TABS_INDEX.sharedViewsTab) {
-        getSharedViews(fetchParams.page, fetchParams.pageSize);
+        getSharedViews(fetchParams.currentPage, fetchParams.viewsPerPage);
       }
 
       toggleNotification({

@@ -52,6 +52,7 @@ export default {
         </ViewsProvider>
       )
     });
+
     if (process.env.STRAPI_ADMIN_FAVORITE_VIEWS_INJECT_TO) {
       for (const entry of process.env.STRAPI_ADMIN_FAVORITE_VIEWS_INJECT_TO.split(',')) {
         const [pluginName, container, block] = entry.split('.');

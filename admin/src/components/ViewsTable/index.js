@@ -169,7 +169,7 @@ export const TableFooter = () => {
   };
 
   return (
-    <Flex alignItems="flex-end" justifyContent="space-between">
+    <Flex alignItems="flex-end" justifyContent="space-between" marginTop={4}>
       <Flex gap={2}>
         <SingleSelect size="S" onChange={handleChangeItemsPerPage} value={itemsPerPage}>
           {ITEMS_PER_PAGE.map((option) => (
@@ -182,7 +182,7 @@ export const TableFooter = () => {
           {translate('HomePage.Table.Footer.Pagination.Select')}
         </Typography>
       </Flex>
-      <Pagination activePage={fetchParams.currentPage} pageCount={fetchParams.viewsPerPage}>
+      <Pagination activePage={fetchParams.currentPage} pageCount={viewsPagesCount}>
         <PreviousLink
           as={NavLink}
           to={`?page=${fetchParams.currentPage - 1}&pageSize=${
