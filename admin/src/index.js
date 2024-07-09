@@ -53,7 +53,9 @@ export default {
       )
     });
 
-    if (process.env.STRAPI_ADMIN_FAVORITE_VIEWS_INJECT_TO) {
+    const env = typeof process === 'undefined' ? {} : process.env;
+
+    if (env.STRAPI_ADMIN_FAVORITE_VIEWS_INJECT_TO) {
       for (const entry of process.env.STRAPI_ADMIN_FAVORITE_VIEWS_INJECT_TO.split(',')) {
         const [pluginName, container, block] = entry.split('.');
         const plugin = app.getPlugin(pluginName.replace(/^plugin::/, ''));
